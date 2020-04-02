@@ -74,11 +74,11 @@ server {
         location / {
                 # First attempt to serve request as file, then
                 # as directory, then fall back to displaying a 404.
-                try_files $uri $uri/ =404;
+                try_files \$uri \$uri/ =404;
         }
         # pass PHP scripts to FastCGI server
         #
-        #location ~ \.php$ {
+        #location ~ \.php\$ {
         #       include snippets/fastcgi-php.conf;
         #
         #       # With php-fpm (or other unix sockets):
@@ -87,7 +87,7 @@ server {
         #       fastcgi_pass 127.0.0.1:9000;
         #}
 
-        location ~ \.php$ {
+        location ~ \.php\$ {
                include snippets/fastcgi-php.conf;
 
                # With php-fpm (or other unix sockets):
@@ -106,7 +106,8 @@ EOF
 service nginx restart
 clear
 echo "想在已经可以访问站点了,需要一个数据库"
-echo "按y进入创建过程,n退出,手动创建" check
+echo "按y进入创建过程,n退出,手动创建"
+read -p "Y/N:" check
 if [[ "$check" = 'n' || "$check" = 'N' ]];then echo "退出" && exit 0;fi
 check=0
 while [[ -z "$database" || -z "$username" || -z "password" ]]
