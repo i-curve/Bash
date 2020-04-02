@@ -125,6 +125,14 @@ server {
     server_name  $your_domain;
     root /var/www/html;
     index index.php index.html index.htm;
+    location ~ \.php$ {
+           include snippets/fastcgi-php.conf;
+
+           # With php-fpm (or other unix sockets):
+           fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+           # With php-cgi (or other tcp sockets):
+           #fastcgi_pass 127.0.0.1:9000;
+    }
 }
 EOF
 	#申请https证书
@@ -283,6 +291,7 @@ function remove_trojan(){
     rm -f ${systempwd}trojan.service
     rm -rf /etc/trojan
     rm -rf /root/trojan-cert
+    rm -rf /etc/nginx/sites-enabled/trojan.conf
     green "=============="
     green "trojan删除完毕"
     green "=============="
