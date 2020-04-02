@@ -244,7 +244,7 @@ After=network.target
    
 [Service]  
 Type=simple  
-PIDFile=/etc/trojan/trojan/trojan/trojan.pid
+PIDFile=/etc/trojan/trojan/trojan.pid
 ExecStart=/etc/trojan/trojan/trojan -c "/etc/trojan/trojan/server.conf"  
 ExecStop=/etc/trojan/trojan/trojan  
 PrivateTmp=true  
