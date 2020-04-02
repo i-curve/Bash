@@ -107,6 +107,7 @@ elif [ "$release" == "ubuntu" ]; then
 fi
 #$systemPackage -y install  nginx wget unzip zip curl tar >/dev/null 2>&1
 #systemctl enable nginx.service
+apt-get install -y zip tar
 green "======================="
 yellow "请输入绑定到本VPS的域名"
 green "======================="
@@ -281,6 +282,7 @@ function remove_trojan(){
     systemctl disable trojan
     rm -f ${systempwd}trojan.service
     rm -rf /etc/trojan
+    rm -rf /root/trojan-cert
     green "=============="
     green "trojan删除完毕"
     green "=============="
