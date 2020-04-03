@@ -151,10 +151,10 @@ service nginx restart
         cd /etc/trojan
 	#wget https://github.com/trojan-gfw/trojan/releases/download/v1.14.0/trojan-1.14.0-linux-amd64.tar.xz
     wget https://github.com/i-curve/Trojan/raw/master/trojan-1.14.0-linux-amd64.tar.xz
-	tar xf trojan-1.*
+	tar xf trojan-1.* && rm -f trojan-1.*
 	#下载trojan客户端
     wget https://github.com/i-curve/Trojan/raw/master/trojan-cli.zip
-	unzip trojan-cli.zip
+	unzip trojan-cli.zip && rm -f trojan-cli.zip
 	cp ~/trojan-cert/fullchain.cer /etc/trojan/trojan-cli/fullchain.cer
 	trojan_passwd=$(cat /dev/urandom | head -1 | md5sum | head -c 8)
 	cat > /etc/trojan/trojan-cli/config.json <<-EOF
