@@ -138,7 +138,7 @@ EOF
 #伪站点,位于/var/www/trojan
 mkdir /var/www/trojan && cd /var/www/trojan
 wget https://github.com/i-curve/Trojan/raw/master/web.zip && unzip web.zip && rm web.zip
-
+service nginx restart
 	#申请https证书
 	mkdir ~/trojan-cert && mkdir /etc/trojan
 	curl https://get.acme.sh | sh
