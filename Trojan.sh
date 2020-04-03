@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#curve
+#curve 不影响已经安装的web服务器,或者想要安装自己的服务器
+#仅占用本域名访问,ip或其他域名访问不影响
 #fonts color
 yellow(){
     echo -e "\033[33m\033[01m$1\033[0m"
@@ -119,15 +120,14 @@ if [ $real_addr == $local_addr ] ; then
 	green "       域名解析正常，开始安装trojan"
 	green "=========================================="
 	sleep 1s
-cat > /etc/nginx/sites-enabled/trojan.conf <<-EOF
+cat > /etc/nginx/sites-enabled/trojan <<-EOF
 server {
     listen       80;
     server_name  $your_domain;
-    root /var/www/html;
+    root /var/www/trojan;
     index index.php index.html index.htm;
     location ~ \.php$ {
            include snippets/fastcgi-php.conf;
-
            # With php-fpm (or other unix sockets):
            fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
            # With php-cgi (or other tcp sockets):
@@ -135,6 +135,10 @@ server {
     }
 }
 EOF
+#伪站点,位于/var/www/trojan
+mkdir /var/www/trojan && cd /var/www/trojan
+wget https://github.com/i-curve/Trojan/raw/master/web.zip && unzip web.zip && rm web.zip
+
 	#申请https证书
 	mkdir ~/trojan-cert && mkdir /etc/trojan
 	curl https://get.acme.sh | sh
@@ -246,8 +250,9 @@ After=network.target
 Type=simple  
 PIDFile=/etc/trojan/trojan/trojan.pid
 ExecStart=/etc/trojan/trojan/trojan -c "/etc/trojan/trojan/server.conf"  
-ExecStop=/etc/trojan/trojan/trojan  
-PrivateTmp=true  
+ExecReload=/bin/kill -HUP \$MAINPID
+Restart=on-failure
+RestartSec=1s
    
 [Install]  
 WantedBy=multi-user.target
