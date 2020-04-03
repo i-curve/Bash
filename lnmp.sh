@@ -10,6 +10,8 @@ sudo apt-get install -y nginx mysql-server wget
 sudo apt-get install -y php7.2-fpm
 cd /var/www
 wget https://wordpress.org/latest.zip && unzip latest.zip && rm latest.zip
+chown -R www-data wordpress/
+chgrp -R www-data wordpress/
 
 sleep 1
 clear
@@ -19,8 +21,8 @@ echo "=========================="
 echo "已经安装完成nginx,mysql,接下来将会安装php"
 echo "=========================="
 echo "注意事项"
-echo "1.首相将出现选择web自动选择:此时apache,lightd一个都不选"
-echo "2.其次将会选择配置mysql配置选择项: 因为已经安装mysql了,所以按<Esc>直接退出就行"
+echo "1.首相将出现选择web自动选择:此时apache,lightd一个都不选,所以按<Esc>直接退出就行"
+echo "2.其次将会选择配置mysql配置选择项: 因为已经安装mysql了,所以选择<no>"
 echo "=========================="
 echo "若果已经明白请输入Y:继续安装,N:退出手动安装,默认继续..."
 read -p "Y/N:" check
