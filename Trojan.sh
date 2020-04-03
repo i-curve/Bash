@@ -142,7 +142,7 @@ service nginx restart
 	#申请https证书
 	mkdir ~/trojan-cert && mkdir /etc/trojan
 	curl https://get.acme.sh | sh
-	~/.acme.sh/acme.sh  --issue  -d $your_domain  --webroot /var/www/wordpress
+	~/.acme.sh/acme.sh  --issue  -d $your_domain  --webroot /var/www/trojan
     	~/.acme.sh/acme.sh  --installcert  -d  $your_domain   \
         --key-file   ~/trojan-cert/private.key \
         --fullchain-file ~/trojan-cert/fullchain.cer \
