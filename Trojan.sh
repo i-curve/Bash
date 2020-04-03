@@ -238,7 +238,7 @@ EOF
 	zip -q -r trojan-cli.zip /etc/trojan/trojan-cli/
 	trojan_path=$(cat /dev/urandom | head -1 | md5sum | head -c 16)
 	mkdir /var/www/html/${trojan_path}
-	mv /etc/trojan/trojan-cli/trojan-cli.zip /var/www/html/${trojan_path}/
+	mv /etc/trojan/trojan-cli/trojan-cli.zip /var/www/trojan/${trojan_path}/
 	#增加启动脚本
 	
 cat > ${systempwd}trojan.service <<-EOF
