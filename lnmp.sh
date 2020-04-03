@@ -5,6 +5,7 @@
 sudo apt-get update
 sudo apt-get upgrade
 
+sudo apt-get install -y zip unzip tar
 sudo apt-get install -y nginx mysql-server wget
 sudo apt-get install -y php7.2-fpm
 cd /var/www
