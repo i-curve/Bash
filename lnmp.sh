@@ -3,7 +3,7 @@
 # 名称:初始vps网站搭建一件安装脚本
 # System:Ubuntu 18.04
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get -y upgrade
 
 sudo apt-get install -y zip unzip tar
 sudo apt-get install -y nginx mysql-server wget
