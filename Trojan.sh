@@ -296,7 +296,9 @@ function remove_trojan(){
     rm -f ${systempwd}trojan.service
     rm -rf /etc/trojan
     rm -rf /root/trojan-cert
-    rm -rf /etc/nginx/sites-enabled/trojan.conf
+    rm -rf /etc/nginx/sites-enabled/trojan
+    rm -rf /var/www/trojan
+    service nginx restart
     green "=============="
     green "trojan删除完毕"
     green "=============="
