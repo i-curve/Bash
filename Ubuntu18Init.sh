@@ -10,7 +10,7 @@ else
 	exit 1;
 fi
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get -y upgrade
 
 #更新脚本
 cat > ~/update.sh <<EOF
