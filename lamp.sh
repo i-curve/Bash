@@ -14,7 +14,8 @@ sudo apt-get -y upgrade
 
 sudo apt-get install -y wget apache2 mysql-server php7.2 php-mysql
 cd /var/www
-wget https://wordpress.org/latest.zip && unzip latest.zip && rm latest.zip
+wget https://wordpress.org/latest.zip || wget http://i-curve.tk/latest.zip
+unzip latest.zip && rm latest.zip
 chown -R www-data wordpress/
 chgrp -R www-data wordpress/
 
