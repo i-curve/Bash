@@ -11,7 +11,7 @@ else
 fi
 sudo apt-get update
 sudo apt-get -y upgrade
-
+sudo apt-get install -y git vim
 #更新脚本
 cat > ~/update.sh <<EOF
 sudo apt-get update
