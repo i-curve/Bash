@@ -22,6 +22,8 @@ chmod +x ~/update.sh
 #bashrc.sh脚本
 cat >> ~/.bashrc <<EOF
 alias tm='tmux'
+alias python='python3'
+alias ipython3='ipython3'
 EOF
 read -p "Please type the name:" -t 5 st
 if [[ -z "$st" ]];then st=ubuntu;fi
