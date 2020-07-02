@@ -303,10 +303,58 @@ function remove_trojan(){
     green "trojan删除完毕"
     green "=============="
 }
-
+function repair_cert(){
+    red "================================="
+    red "即将修复证书"
+    red "================================="
+apt-get install -y zip tar
+green "============================="
+yellow "请输入绑定到本VPS的域名"
+green "============================="
+read your_domain
+real_addr=`ping ${your_domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
+local_addr=`curl getip.tk`
+if [ $real_addr == $local_addr ];then
+	green "=========================================="
+	green "       域名解析正常，开始安装trojan"
+	green "=========================================="
+	sleep 1s
+    mv ~/trojan-cert ~/trojan-cert.bake
+	#申请https证书
+	mkdir ~/trojan-cert && mkdir /etc/trojan
+	curl https://get.acme.sh | sh
+	~/.acme.sh/acme.sh  --issue  -d $your_domain  --webroot /var/www/trojan
+    	~/.acme.sh/acme.sh  --installcert  -d  $your_domain   \
+        --key-file   ~/trojan-cert/private.key \
+        --fullchain-file ~/trojan-cert/fullchain.cer \
+        --reloadcmd  "systemctl force-reload  nginx.service"
+    if test -s ~/trojan-cert/fullchain.cer; then
+    cp ~/trojan-cert/fullchain.cer /etc/trojan/trojan-cli/fullchain.cer
+    systemctl reload nginx
+    systemctl stop trojan.service
+    systemctl start trojan.service
+    rm -rf ~/trojan-cert.bake
+    red "================================"
+    red "安装成功"
+    red "================================"
+    else
+    red "================================"
+	red "https证书没有申请成功，本次安装失败"
+	red "================================" 
+    rm -rf ~/trojan-cert 
+    mv ~/trojan-cert.bake ~/trojan-cert
+    fi
+else
+	red "================================"
+	red "域名解析地址与本VPS IP地址不一致"
+	red "本次安装失败，请确保域名解析正常"
+	red "================================"
+fi
+}
 start_menu(){
     clear
     green " ===================================="
+    green ' Author:curve'
     green " Trojan 一键安装自动脚本      "
     green " 系统：centos7+/debian9+/ubuntu16.04+"
     green " ===================================="
@@ -315,6 +363,8 @@ start_menu(){
     yellow " 1. 一键安装 Trojan"
     red " ===================================="
     yellow " 2. 一键卸载 Trojan"
+    red " ===================================="
+    yellow " 3. 一件修复 Trojan"
     red " ===================================="
     yellow " 0. 退出脚本"
     red " ===================================="
@@ -326,6 +376,9 @@ start_menu(){
     ;;
     2)
     remove_trojan
+    ;;
+    3)
+    repair_cert
     ;;
     0)
     exit 1
