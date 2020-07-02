@@ -114,7 +114,7 @@ yellow "请输入绑定到本VPS的域名"
 green "======================="
 read your_domain
 real_addr=`ping ${your_domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
-local_addr=`curl ipv4.icanhazip.com`
+local_addr=`curl getip.tk`
 if [ $real_addr == $local_addr ] ; then
 	green "=========================================="
 	green "       域名解析正常，开始安装trojan"
@@ -330,12 +330,14 @@ if [ $real_addr == $local_addr ];then
         --reloadcmd  "systemctl force-reload  nginx.service"
     if test -s ~/trojan-cert/fullchain.cer; then
     cp ~/trojan-cert/fullchain.cer /etc/trojan/trojan-cli/fullchain.cer
+    cp ~/trojan-cert/fullchain.cer /var/www/trojan/fullchain.cer
     systemctl reload nginx
     systemctl stop trojan.service
     systemctl start trojan.service
     rm -rf ~/trojan-cert.bake
-    red "================================"
-    red "安装成功"
+    yellow "================================"
+    yellow "安装成功"
+    yellow "可以直接在http://${your_domain}/fullchain.cer 下载cer文件"
     red "================================"
     else
     red "================================"
