@@ -1,8 +1,8 @@
 #!/bin/bash
 
-version=1.0
+version=2.0
 #变量(variable)
-path=/root
+path=/root/shell
 config=/etc/swap
 
 function Check(){
@@ -23,10 +23,7 @@ function Install(){
 	else
 		echo "状态ok,准备安装..."
 	fi
-	echo "请输入swap文件所在位置,默认目录:/root"
-	echo "*提示,将会创建swap文件夹,存放交换信息"
-	read -p "请输入swap文件所在位置,默认目录(/root): " path
-	if [ -z $path ];then path="/root";fi
+	mkdir -p $path
 	cd $path && mkdir swap && cd swap
 	read -p "请输入分多少块,默认1块: " count
 	if [ -z $count ];then count=1;fi
@@ -35,16 +32,16 @@ function Install(){
 	sudo dd if=/dev/zero of=swapfile bs="$bs"M count="$count" > /dev/null
 	sudo mkswap swapfile > /dev/null
 	sudo swapon swapfile
-	if [ $? != 0 ];then echo "失败...";fi
+	if [ $? != 0 ];then echo "失败...";exit 1;fi
 	echo "创建成功,2s后创建启动脚本..."
 	sleep 2
 	echo "$path/swap/swapfile swap swap defaults 0 0" >> /etc/fstab
 	echo "OK!"
 	mkdir /etc/swap && cd /etc/swap
 cat > config <<EOF
-$path
-$bs
-$count
+path $path
+number $count
+size $bs
 EOF
 }
 #2.查看虚拟内存配置
@@ -58,11 +55,17 @@ function Set(){
 }
 #卸载虚拟内存
 function Uninstall(){
-	sudo swapoff $path/swap/swapfile
-	rm -rf $config
-	rm -rf $path/swap
-	sed -i '/swap/d' /etc/fstab
-	echo "删除成功"
+	if [[ -e /etc/swap/config ]];then
+		echo "正在删虚拟内存"
+		path=$(cat /etc/swap/config |grep path|cut -d' ' -f2)
+		sudo swapoff $path/swap/swapfile
+		rm -rf $config
+		rm -rf $path/swap
+		sed -i '/swap/d' /etc/fstab
+		echo "删除成功"
+	else
+		echo "未安装本脚本"
+	fi
 }
 #本脚本信息
 function Information(){
@@ -70,7 +73,7 @@ function Information(){
 	echo "系统要求ubuntu18.04+系统"
 	echo "======================"
 	echo "文件夹:/etc/swap,存放本脚本使用的一些配置信息"
-	echo "虚拟内存信息:默认在/root/swap"
+	echo "虚拟内存信息:默认在/root/shell/swap"
 }
 function Start_menu(){
 clear
@@ -78,7 +81,7 @@ echo " ======================="
 echo " ======================="
 echo "      名称:虚拟内存自动管理脚本"
 echo "      作者:curve             "
-echo "      系统:ubuntu            "
+echo "      系统:Linux              "
 echo " ======================="
 echo " ======================="
 echo " ================此脚本适用于未曾设置过虚拟内存的设备"

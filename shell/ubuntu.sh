@@ -3,6 +3,8 @@
 #名称:ubuntu初始系统一键配置大全,包括更新脚本,bash配置,vim配置
 #System:Ubuntu 18.04
 #
+version=1.0
+
 if cat /etc/issue | grep -Eqi "debian|ubuntu";then
 	echo "系统检测成功,准备安装";
 else
