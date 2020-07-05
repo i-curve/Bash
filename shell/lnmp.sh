@@ -2,12 +2,35 @@
 # Author:curve
 # 名称:初始vps网站搭建一件安装脚本
 # System:Ubuntu 18.04
-sudo apt-get update
-sudo apt-get -y upgrade
+version=1.1
+yellow(){
+    echo -e "\033[33m\033[01m$1\033[0m"
+}
+red(){
+    echo -e "\033[31m\033[01m$1\033[0m"
+}
+green(){
+    echo -e "\033[32m\033[01m$1\033[0m"
+}
+function check(){
+	if cat /etc/issue|grep -Eiq "ubuntu|debian";then
+		systemPackage="apt-get"
+elif    cat /etc/issue|grep -Eqi "centos|red hat|redhat";then
+		systemPackage="yum"
+		red "非ubuntu系统"
+		exit 1
+else
+		red "系统不匹配"
+		exit 1
+	fi
+}
+check
+sudo $systemPackage update
+sudo $systemPackage -y upgrade
 
-sudo apt-get install -y zip unzip tar
-sudo apt-get install -y nginx mysql-server wget
-sudo apt-get install -y php7.2-fpm
+sudo $systemPackage install -y zip unzip tar
+sudo $systemPackage install -y nginx mysql-server wget
+sudo $systemPackage install -y php7.2-fpm
 cd /var/www
 wget https://wordpress.org/latest.zip && unzip latest.zip && rm latest.zip
 chown -R www-data wordpress/
@@ -27,7 +50,7 @@ echo "=========================="
 echo "若果已经明白请输入Y:继续安装,N:退出手动安装,默认继续..."
 read -p "Y/N:" check
 if [[ "$check" = 'N' || "$check" = "n" ]];then echo "退出" && exit 0;fi
-apt-get install -y phpmyadmin
+$systemPackage install -y phpmyadmin
 cat > /etc/nginx/sites-enabled/default <<EOF
 #
 # You should look at the following URL's in order to grasp a solid understanding

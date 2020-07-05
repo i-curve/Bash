@@ -4,6 +4,7 @@ version=2.0
 #变量(variable)
 path=/root/shell
 config=/etc/swap
+url="https://raw.githubusercontent.com/i-curve/Bash/master/shell/swapfile.sh"
 
 function Check(){
 	if [[ `whoami` != root ]];then
@@ -75,6 +76,18 @@ function Information(){
 	echo "文件夹:/etc/swap,存放本脚本使用的一些配置信息"
 	echo "虚拟内存信息:默认在/root/shell/swap"
 }
+function Update(){
+	echo "正在更新脚本..."
+	version_local=$version
+	version_hub=$(curl $url|grep "^version\>"|cut -d'=' -f2)
+	if [[ "$version_local" = "$version_hub" ]];then
+			echo "已经是最新版本"
+	else
+			wget  $url
+			echo "更新成功"
+			exit 0
+	fi
+}
 function Start_menu(){
 clear
 echo " ======================="
@@ -92,6 +105,7 @@ echo " ================3. 修改虚拟内存配置"
 echo
 echo " ================4. 卸载虚拟内存"
 echo " ================5. 此脚本的原理,以及所创建的文件夹配置信息"
+echo " ================6. 更新此脚本"
 echo " ================0. 退出"
 read -p "请输入相应数字:" num
 case $num in
@@ -112,6 +126,9 @@ case $num in
 	;;
 	5)
 	Information
+	;;
+	6)
+	Update
 	;;
 	*)
 	echo "请输入正确数字,2s后将会重新运行"

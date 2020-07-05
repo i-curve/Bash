@@ -3,6 +3,8 @@
 #curve 不影响已经安装的web服务器,或者想要安装自己的服务器
 #仅占用本域名访问,ip或其他域名访问不影响
 #fonts color
+version=1.1
+
 yellow(){
     echo -e "\033[33m\033[01m$1\033[0m"
 }
