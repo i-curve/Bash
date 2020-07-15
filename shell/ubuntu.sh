@@ -3,7 +3,7 @@
 #名称:ubuntu初始系统一键配置大全,包括更新脚本,bash配置,vim配置
 #System:Ubuntu 18.04
 #
-version=1.1
+version=2
 
 url="https://raw.githubusercontent.com/i-curve/Bash/master/shell/ubuntu.sh"
 l=6
@@ -153,7 +153,7 @@ function remove(){
 	rm -rf /etc/ubuntu
 	L=$(cat ~/.bashrc |grep -in "tmux"|cut -d: -f1)
 	k=$(cat ~/.bashrc |grep -in "goproxy"|cut -d: -f1)
-	sed -i "$k,${L}d" ~/.bashrc
+	sed -i "$L,${k}d" ~/.bashrc
     L=$(cat /etc/hosts|grep -in "github start"|cut -d: -f1)
     k=$(cat /etc/hosts|grep -in "github end"|cut -d: -f1)
     sed -i "$L,${k}d" /etc/hosts
