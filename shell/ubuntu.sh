@@ -141,12 +141,12 @@ let g:pymode_lint = 1
 "let g:clang_library_path='/usr/lib64/libclang.so.3.8'
 EOF
 mkdir -p /etc/ubuntu
-cat > /etc/ubuntu <<EOF
+cat > /etc/ubuntu/version <<EOF
 version $version
 EOF
 }
 function remove(){
-	if [[ -e /etc/ubuntu ]];then
+	if [[ -e /etc/ubuntu/version ]];then
 	rm -rf ~/update.sh
 	rm -rf ~/.vimrc
 	rm -rf ~/.vim
@@ -155,7 +155,7 @@ function remove(){
 	k=$(($L-$l))
 	sed -i "$k,${L}d" ~/.bashrc
     L=$(cat /etc/hosts|grep -in "github start"|cut -d: -f1)
-    k=$(cat /etc/hosts|grep -in "github start"|cut -d: -f1)
+    k=$(cat /etc/hosts|grep -in "github end"|cut -d: -f1)
     sed -i "$L,${k}d" /etc/hosts
 else
 		echo "未安装"
