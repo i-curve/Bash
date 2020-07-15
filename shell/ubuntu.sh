@@ -18,7 +18,7 @@ red(){
 }
 function check(){
 if cat /etc/issue | grep -Eqi "debian|ubuntu";then
-	systemPackage="apt-agt"
+	systemPackage="apt-get"
 elif cat /etc/issue | grep -Eqi "centos|red hat|redhat";then
 	systemPackage="yum"
 else
@@ -154,6 +154,9 @@ function remove(){
 	L=$(cat ~/.bashrc|wc -l)
 	k=$(($L-$l))
 	sed -i "$k,${L}d" ~/.bashrc
+    L=$(cat /etc/hosts|grep -in "github start"|cut -d: -f1)
+    k=$(cat /etc/hosts|grep -in "github start"|cut -d: -f1)
+    sed -i "$L,${k}d" /etc/hosts
 else
 		echo "未安装"
 	fi
