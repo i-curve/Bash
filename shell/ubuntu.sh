@@ -142,7 +142,7 @@ let g:pymode_lint = 1
 EOF
 mkdir -p /etc/ubuntu
 cat > /etc/ubuntu/version <<EOF
-version $version
+$version
 EOF
 }
 function remove(){
@@ -168,7 +168,7 @@ function update(){
 	if [[ "$version_local" = "$version_hub" ]];then
 			echo "已经是最新版本"
 	else
-			wget  $url
+			wget -O ubuntu.sh $url
 			echo "更新成功"
 			exit 0
 	fi
