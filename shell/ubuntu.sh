@@ -151,8 +151,8 @@ function remove(){
 	rm -rf ~/.vimrc
 	rm -rf ~/.vim
 	rm -rf /etc/ubuntu
-	L=$(cat ~/.bashrc|wc -l)
-	k=$(($L-$l))
+	L=$(cat ~/.bashrc |grep -in "tmux"|cut -d: -f1)
+	k=$(cat ~/.bashrc |grep -in "goproxy"|cut -d: -f1)
 	sed -i "$k,${L}d" ~/.bashrc
     L=$(cat /etc/hosts|grep -in "github start"|cut -d: -f1)
     k=$(cat /etc/hosts|grep -in "github end"|cut -d: -f1)
