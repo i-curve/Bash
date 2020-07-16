@@ -4,7 +4,7 @@
 #System:Ubuntu 18.04
 #
 version=2
-url="https://raw.githubusercontent.com/i-curve/language/master/LINUX/vim/.vimrc"
+url_vim="https://raw.githubusercontent.com/i-curve/language/master/LINUX/vim/.vimrc"
 
 url="https://raw.githubusercontent.com/i-curve/Bash/master/shell/ubuntu.sh"
 l=6
@@ -81,7 +81,7 @@ fi
 #vim脚本
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-curl -o ~/.vimrc $url
+curl -o ~/.vimrc $url_vim
 mkdir -p /etc/ubuntu
 cat > /etc/ubuntu/version <<EOF
 $version
