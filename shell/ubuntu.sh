@@ -3,11 +3,7 @@
 #名称:ubuntu初始系统一键配置大全,包括更新脚本,bash配置,vim配置
 #System:Ubuntu 18.04
 #
-version=2
 url_vim="https://raw.githubusercontent.com/i-curve/language/master/LINUX/vim/.vimrc"
-
-url="https://raw.githubusercontent.com/i-curve/Bash/master/shell/ubuntu.sh"
-l=6
 yellow(){
     echo -e "\033[33m\033[01m$1\033[0m"
 }
@@ -35,7 +31,7 @@ sudo $systemPackage install -y git vim
 #更新脚本
 cat > ~/update.sh <<EOF
 sudo $systemPackage update
-sudo $systemPackage -y upgrade
+sudo $systemPackage -y dist-upgrade
 EOF
 chmod +x ~/update.sh
 
@@ -44,10 +40,10 @@ cat >> ~/.bashrc <<EOF
 alias tm='tmux'
 alias python='python3'
 alias pip='pip3'
-alias ipython3='ipython3'
+alias ipython='ipython3'
 export GOPROXY=https://goproxy.io
 EOF
-read -p "Please type the name:" -t 5 st
+read -p "Please type the name:" -t 10 st
 if [[ -z "$st" ]];then st=linux;fi
 echo "export PS1=\"\\u@$st>\" " >> ~/.bashrc
 
@@ -82,13 +78,13 @@ fi
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 curl -o ~/.vimrc $url_vim
-mkdir -p /etc/ubuntu
-cat > /etc/ubuntu/version <<EOF
+mkdir -p /etc/Bash
+cat > /etc/Bash/ubuntu <<EOF
 $version
 EOF
 }
 function remove(){
-	if [[ -e /etc/ubuntu/version ]];then
+	if [[ -e /etc/Bash/ubuntu ]];then
 	rm -rf ~/update.sh
 	rm -rf ~/.vimrc
 	rm -rf ~/.vim
@@ -101,18 +97,6 @@ function remove(){
     sed -i "$L,${k}d" /etc/hosts
 else
 		echo "未安装"
-	fi
-}
-function update(){
-	echo "正在更新脚本..."
-	version_local=$version
-	version_hub=$(curl $url|grep "^version\>"|cut -d'=' -f2)
-	if [[ "$version_local" = "$version_hub" ]];then
-			echo "已经是最新版本"
-	else
-			wget -O ubuntu.sh $url
-			echo "更新成功"
-			exit 0
 	fi
 }
 start(){
@@ -129,8 +113,6 @@ start(){
 		green " ====================="
 		yellow " 2. 一键卸载"
 		green " ====================="
-		yellow " 3. 一键更新脚本"
-		green " ====================="
 		yellow " 0. 退出"
 		echo
 		read -p "请输入数字：" num
@@ -141,18 +123,15 @@ start(){
 			2)
 				remove
 				;;
-		3)
-				update
-				;;
-		0)
+			0)
 				exit 0
 				;;
-		*)
+			*)
 				clear
 				red "请输入正确数字"
 				sleep 1
 				start
 				;;
-esac
+		esac
 }
 start
