@@ -1,29 +1,43 @@
 # Bash
 
-## description
+## 描述
 
-Some scripts to reduce the work!
+一些非常有用的的shell脚本,用于简化工作量和一键部署工作
 
-# System Information
+## 运行环境
 
-**OS:** ubuntu and debian system 
+**os**:Ubuntu及其他debian的操作系统,其他系统请自行修改文件进行测试
 
-# Usages
+## 文件说明
 
-when you clone the repository,you can into the folder and run the command to optimizer your system.  
+name|描述
+-|-
+test.sh|测试常用github网站可用性
+ubuntu.sh|新安装的系统进行初始化
+lnmp.sh|一键安装lnmp
+lamp.sh|一键安装lamp
+DNS.sh|安装dns域名解析服务器
+swapfile.sh|linux系统虚拟内存配置脚本
+Trojan.sh|一键安装trojan
 
-**1. bash ubuntu.sh**
+## 用法
 
-In the command, you have 5s to rename the computer name(default ubuntu).  
-After the command,it will create ~/updata.sh file,next you can ~/updata.sh to upgrade the app.It will append some environment variable.  
-Most important of all,it will config the vim configuration.it's my habit on vim.you can find the detailed information on [this page](https://github.com/i-curve/language/blob/master/LINUX/vim/vim.md)  
+使用前请务必使用tesh.sh脚本进行可行性测试
 
-# Get it now
-clone it :  
+```sh
+bash shell/脚本名
+```
+
+## 克隆
 
 ```bash
-$ git clone https://github.com/i-curve/language.git
+https://github.com/i-curve/Bash.git
 ```
-# License  
+
+## 贡献
+
+欢迎随时提出issue
+
+## 许可证
 
 [BSD-3-ClAUSE License](LICENSE)
