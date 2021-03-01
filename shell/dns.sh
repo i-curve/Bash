@@ -2,7 +2,7 @@
 #curve
 #安装dns服务器
 version=1.1
-url="https://raw.githubusercontent.com/i-curve/Bash/master/shell/DNS.sh"
+url="https://raw.githubusercontent.com/i-curve/Bash/master/shell/dns.sh"
 
 yellow(){
     echo -e "\033[33m\033[01m$1\033[0m"
