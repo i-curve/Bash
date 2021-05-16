@@ -95,7 +95,7 @@ start(){
         0)
             exit
             ;;
-        8)
+        *)
             red "请输入正确数字"
             sleep 2
             start
