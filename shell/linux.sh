@@ -44,6 +44,7 @@ function install(){
 cat > ~/update.sh <<EOF
 sudo $systemPackage update
 sudo $systemPackage -y dist-upgrade
+sudo $systemPackage -y autoremove
 EOF
 chmod +x ~/update.sh
 
