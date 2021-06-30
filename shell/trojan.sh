@@ -253,8 +253,8 @@ Type=simple
 PIDFile=/etc/trojan/trojan/trojan.pid
 ExecStart=/etc/trojan/trojan/trojan -c "/etc/trojan/trojan/server.conf"  
 ExecReload=/bin/kill -HUP \$MAINPID
-Restart=on-failure
-RestartSec=1s
+# Restart=on-failure
+# RestartSec=1s
    
 [Install]  
 WantedBy=multi-user.target
