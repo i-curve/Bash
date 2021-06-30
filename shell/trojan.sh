@@ -110,7 +110,7 @@ elif [ "$release" == "ubuntu" ]; then
 fi
 #$systemPackage -y install  nginx wget unzip zip curl tar >/dev/null 2>&1
 #systemctl enable nginx.service
-apt-get install -y zip tar
+apt-get install -y zip tar nginx
 green "======================="
 yellow "请输入绑定到本VPS的域名"
 green "======================="
@@ -143,7 +143,7 @@ wget https://github.com/i-curve/Trojan/raw/master/web.zip && unzip web.zip && rm
 service nginx restart
 	#申请https证书
 	mkdir ~/trojan-cert && mkdir /etc/trojan
-	curl https://get.acme.sh | sh
+	curl https://get.acme.sh | sh -s email=wjuncurve@gmail.com
 	~/.acme.sh/acme.sh  --issue  -d $your_domain  --webroot /var/www/trojan
     	~/.acme.sh/acme.sh  --installcert  -d  $your_domain   \
         --key-file   ~/trojan-cert/private.key \
