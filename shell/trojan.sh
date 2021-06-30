@@ -300,6 +300,7 @@ function remove_trojan(){
     rm -rf /root/trojan-cert
     rm -rf /etc/nginx/sites-enabled/trojan
     rm -rf /var/www/trojan
+    rm -rf ~/.acme.sh/
     service nginx restart
     green "=============="
     green "trojan删除完毕"
@@ -324,7 +325,7 @@ if [ $real_addr == $local_addr ];then
     mv ~/trojan-cert ~/trojan-cert.bake
 	#申请https证书
 	mkdir ~/trojan-cert && mkdir /etc/trojan
-	curl https://get.acme.sh | sh
+	curl https://get.acme.sh | sh -s email=wjuncurve@gmail.com
 	~/.acme.sh/acme.sh  --issue  -d $your_domain  --webroot /var/www/trojan
     	~/.acme.sh/acme.sh  --installcert  -d  $your_domain   \
         --key-file   ~/trojan-cert/private.key \
