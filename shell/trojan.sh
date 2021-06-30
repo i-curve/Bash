@@ -138,7 +138,7 @@ server {
 }
 EOF
 #伪站点,位于/var/www/trojan
-mkdir /var/www/trojan && cd /var/www/trojan
+mkdir -p /var/www/trojan && cd /var/www/trojan
 wget https://github.com/i-curve/Trojan/raw/master/web.zip && unzip web.zip && rm web.zip
 service nginx restart
 	#申请https证书
@@ -368,7 +368,7 @@ start_menu(){
     red " ===================================="
     yellow " 2. 一键卸载 Trojan"
     red " ===================================="
-    yellow " 3. 一件修复 Trojan"
+    yellow " 3. 修复域名过期 Trojan"
     red " ===================================="
     yellow " 0. 退出脚本"
     red " ===================================="
