@@ -152,7 +152,7 @@ service nginx restart
 	if test -s ~/trojan-cert/fullchain.cer; then
         cd /etc/trojan
 	#wget https://github.com/trojan-gfw/trojan/releases/download/v1.14.0/trojan-1.14.0-linux-amd64.tar.xz
-    wget https://github.com/i-curve/Trojan/raw/master/trojan-1.14.0-linux-amd64.tar.xz
+    wget https://github.com/i-curve/Trojan/raw/master/trojan-1.16.0-linux-amd64.tar.xz
 	tar xf trojan-1.* && rm -f trojan-1.*
 	#下载trojan客户端
     wget https://github.com/i-curve/Trojan/raw/master/trojan-cli.zip
