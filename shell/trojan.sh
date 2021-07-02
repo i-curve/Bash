@@ -332,7 +332,7 @@ function install_trojan() {
     if [[ "$?" = "2" ]]; then exit 2; fi
     install_web # 安装web服务
     #安装trojan
-    mkdir /etc/Trojan && cd /etc/trojan
+    mkdir -p /etc/trojan && cd /etc/trojan
     install_trojan_client # 安装trojan客户端
     install_trojan_server # 安装trojan服务端
 
