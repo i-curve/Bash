@@ -159,7 +159,7 @@ function install_cert() {
         --debug
     rm -rf ~/.acme.sh # 删除已无用的acme程序
 
-    if [[ ! -f ~/trojan-cert/fullchain.cer ]]; then
+    if [[ ! -s ~/trojan-cert/fullchain.cer ]]; then
         red "================================"
         red "https证书申请失败，本次安装失败"
         red "================================"
