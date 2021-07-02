@@ -156,6 +156,7 @@ function install_cert() {
         --key-file ~/trojan-cert/private.key \
         --fullchain-file ~/trojan-cert/fullchain.cer \
         --reloadcmd "systemctl force-reload  nginx.service"
+        --debug
     rm -rf ~/.acme.sh # 删除已无用的acme程序
 
     if [[ ! -f ~/trojan-cert/fullchain.cer ]]; then
