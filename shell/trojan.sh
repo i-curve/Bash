@@ -133,7 +133,7 @@ function check_domain() {
     real_addr=$(ping ${your_domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}')
     local_addr=$(curl getip.tk)
     # 如果域名验证失败
-    if [[ $real_addr != $local_addr ]]; then
+    if [[ "$real_addr" != "$local_addr" ]]; then
         red "================================"
         red "域名解析地址与本VPS IP地址不一致"
         red "本次安装失败，请确保域名解析正常"
@@ -150,7 +150,7 @@ function check_domain() {
 function install_cert() {
     #申请https证书
     mkdir -p ~/trojan-cert
-    curl https://get.acme.sh | sh # -s email=wjuncurve@gmail.com
+    curl https://get.acme.sh | sh -s email=wjuncurve@gmail.com
     ~/.acme.sh/acme.sh --issue -d $your_domain --webroot /var/www/trojan
     ~/.acme.sh/acme.sh --installcert -d $your_domain \
         --key-file ~/trojan-cert/private.key \
@@ -193,7 +193,7 @@ server {
 EOF
     #伪站点,位于/var/www/trojan
     mkdir -p /var/www/trojan && cd /var/www/trojan
-    chown -R www-data /var/www/trojan && chgrp -R www-data /var/www/trojan
+    # chown -R www-data /var/www/trojan && chgrp -R www-data /var/www/trojan
     wget https://github.com/i-curve/Trojan/raw/master/web.zip && unzip web.zip && rm web.zip
     service nginx restart
 }
@@ -330,8 +330,8 @@ function genernate_download() {
 # install_trojan 安装trojan
 function install_trojan() {
     install_dependency # 安装依赖项
-    install_web        # 安装web服务
     check_domain       # 核对域名
+    install_web        # 安装web服务
     if [[ "$?" = "1" ]]; then exit 1; fi
     install_cert #申请https证书
     if [[ "$?" = "2" ]]; then exit 2; fi
