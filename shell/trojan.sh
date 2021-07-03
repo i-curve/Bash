@@ -19,34 +19,34 @@ function red() {
 # init 初始化
 function init() {
     # 验证系统状态是否符合安装条件
-    CHECK=$(grep SELINUX= /etc/selinux/config | grep -v "#")
-    if [ "$CHECK" == "SELINUX=enforcing" ]; then
-        red "======================================================================="
-        red "检测到SELinux为开启状态，为防止申请证书失败，请先重启VPS后，再执行本脚本"
-        red "======================================================================="
-        read -p "是否现在重启 ?请输入 [Y/n] :" yn
-        [ -z "${yn}" ] && yn="y"
-        if [[ $yn == [Yy] ]]; then
-            sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-            setenforce 0
-            echo -e "VPS 重启中..."
-            reboot
-        fi
-        exit
-    elif [ "$CHECK" == "SELINUX=permissive" ]; then
-        red "======================================================================="
-        red "检测到SELinux为宽容状态，为防止申请证书失败，请先重启VPS后，再执行本脚本"
-        red "======================================================================="
-        read -p "是否现在重启 ?请输入 [Y/n] :" yn
-        [ -z "${yn}" ] && yn="y"
-        if [[ $yn == [Yy] ]]; then
-            sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
-            setenforce 0
-            echo -e "VPS 重启中..."
-            reboot
-        fi
-        exit
-    fi
+    # CHECK=$(grep SELINUX= /etc/selinux/config | grep -v "#")
+    # if [ "$CHECK" == "SELINUX=enforcing" ]; then
+    #     red "======================================================================="
+    #     red "检测到SELinux为开启状态，为防止申请证书失败，请先重启VPS后，再执行本脚本"
+    #     red "======================================================================="
+    #     read -p "是否现在重启 ?请输入 [Y/n] :" yn
+    #     [ -z "${yn}" ] && yn="y"
+    #     if [[ $yn == [Yy] ]]; then
+    #         sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    #         setenforce 0
+    #         echo -e "VPS 重启中..."
+    #         reboot
+    #     fi
+    #     exit
+    # elif [ "$CHECK" == "SELINUX=permissive" ]; then
+    #     red "======================================================================="
+    #     red "检测到SELinux为宽容状态，为防止申请证书失败，请先重启VPS后，再执行本脚本"
+    #     red "======================================================================="
+    #     read -p "是否现在重启 ?请输入 [Y/n] :" yn
+    #     [ -z "${yn}" ] && yn="y"
+    #     if [[ $yn == [Yy] ]]; then
+    #         sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
+    #         setenforce 0
+    #         echo -e "VPS 重启中..."
+    #         reboot
+    #     fi
+    #     exit
+    # fi
 
     # 初始化包管理
     if [[ -f /etc/redhat-release ]]; then
@@ -80,39 +80,39 @@ function init() {
     fi
 
     # 检测系统最低可容忍版本
-    if [ "$release" == "centos" ]; then
-        if [ -n "$(grep ' 6\.' /etc/redhat-release)" ]; then
-            red "==============="
-            red "当前系统不受支持"
-            red "==============="
-            exit
-        fi
-        if [ -n "$(grep ' 5\.' /etc/redhat-release)" ]; then
-            red "==============="
-            red "当前系统不受支持"
-            red "==============="
-            exit
-        fi
-        systemctl stop firewalld
-        systemctl disable firewalld
-        rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
-    elif [ "$release" == "ubuntu" ]; then
-        if [ -n "$(grep ' 14\.' /etc/os-release)" ]; then
-            red "==============="
-            red "当前系统不受支持"
-            red "==============="
-            exit
-        fi
-        if [ -n "$(grep ' 12\.' /etc/os-release)" ]; then
-            red "==============="
-            red "当前系统不受支持"
-            red "==============="
-            exit
-        fi
-        systemctl stop ufw
-        systemctl disable ufw
-        apt-get update
-    fi
+    # if [ "$release" == "centos" ]; then
+    #     if [ -n "$(grep ' 6\.' /etc/redhat-release)" ]; then
+    #         red "==============="
+    #         red "当前系统不受支持"
+    #         red "==============="
+    #         exit
+    #     fi
+    #     if [ -n "$(grep ' 5\.' /etc/redhat-release)" ]; then
+    #         red "==============="
+    #         red "当前系统不受支持"
+    #         red "==============="
+    #         exit
+    #     fi
+    #     systemctl stop firewalld
+    #     systemctl disable firewalld
+    #     rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+    # elif [ "$release" == "ubuntu" ]; then
+    #     if [ -n "$(grep ' 14\.' /etc/os-release)" ]; then
+    #         red "==============="
+    #         red "当前系统不受支持"
+    #         red "==============="
+    #         exit
+    #     fi
+    #     if [ -n "$(grep ' 12\.' /etc/os-release)" ]; then
+    #         red "==============="
+    #         red "当前系统不受支持"
+    #         red "==============="
+    #         exit
+    #     fi
+    #     systemctl stop ufw
+    #     systemctl disable ufw
+    #     apt-get update
+    # fi
 }
 
 # install_dependency 安装依赖
@@ -150,14 +150,13 @@ function check_domain() {
 function install_cert() {
     #申请https证书
     mkdir -p ~/trojan-cert
-    curl https://get.acme.sh | sh -s email=wjuncurve@gmail.com
+    curl https://get.acme.sh | sh # -s email=wjuncurve@gmail.com
     ~/.acme.sh/acme.sh --issue -d $your_domain --webroot /var/www/trojan
     ~/.acme.sh/acme.sh --installcert -d $your_domain \
         --key-file ~/trojan-cert/private.key \
         --fullchain-file ~/trojan-cert/fullchain.cer \
         --reloadcmd "service nginx force-reload" \
         --debug
-    # rm -rf ~/.acme.sh # 删除已无用的acme程序
 
     if [[ ! -s ~/trojan-cert/fullchain.cer ]]; then
         red "================================"
