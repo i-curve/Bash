@@ -404,7 +404,7 @@ function repair_cert() {
 
 # change_port 修改trojan端口
 function change_port() {
-    if [[ ! -f /etc/trojan/trojan/service/server.conf ]]; then
+    if [[ ! -f  /etc/trojan/trojan/server.conf ]]; then
         yellow " 配置文件不存在, 请先确认是否安装trojan"
         exit 5
     fi
