@@ -155,9 +155,9 @@ function install_cert() {
     ~/.acme.sh/acme.sh --installcert -d $your_domain \
         --key-file ~/trojan-cert/private.key \
         --fullchain-file ~/trojan-cert/fullchain.cer \
-        --reloadcmd "systemctl reload  nginx.service" \
+        --reloadcmd "service nginx force-reload" \
         --debug
-    rm -rf ~/.acme.sh # 删除已无用的acme程序
+    # rm -rf ~/.acme.sh # 删除已无用的acme程序
 
     if [[ ! -s ~/trojan-cert/fullchain.cer ]]; then
         red "================================"
@@ -366,6 +366,7 @@ function remove_trojan() {
 
     systemctl stop trojan && systemctl disable trojan #停止正在运行的trojan服务
 
+    rm -rf ~/.acme.sh                      # 删除无用的acme服务
     rm -f ${sysPwd}trojan.service          # 删除trojan服务
     rm -rf /etc/trojan                     # 删除trojan文件
     rm -rf /root/trojan-cert               # 删除证书
