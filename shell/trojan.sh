@@ -3,7 +3,7 @@
 #仅占用本域名访问,ip或其他域名访问不影响
 #如果443端口被占用,需要手动修改trojan配置文件端口
 #fonts color
-version=3.1
+version=3.2
 
 # 脚本格式化输出信息
 function yellow() {
@@ -402,6 +402,19 @@ function repair_cert() {
     red "================================"
 }
 
+# change_port 修改trojan端口
+function change_port() {
+    if [[ ! -f /etc/trojan/trojan/service/server.conf ]]; then
+        yellow " 配置文件不存在, 请先确认是否安装trojan"
+        exit 5
+    fi
+    green "================================="
+    green "请输入你要绑定的端口:"
+    read $local_port
+    sed -i 's/"local_port":.*/"local_port": '$local_port'/g'  /etc/trojan/trojan/service/server.conf
+    systemctc resetart trojan.service
+}
+
 # start_menu 脚本入口
 function start_menu() {
     init && clear # 执行脚本初始化和清屏
@@ -416,7 +429,9 @@ function start_menu() {
     red " ===================================="
     yellow " 2. 一键卸载 Trojan"
     red " ===================================="
-    yellow " 3. 修复域名过期 Trojan"
+    yellow " 3. 修复域名 Trojan"
+    red " ===================================="
+    yellow " 4. 修改端口 trojan"
     red " ===================================="
     yellow " 0. 退出脚本"
     red " ===================================="
@@ -432,6 +447,9 @@ function start_menu() {
         ;;
     3)
         repair_cert
+        ;;
+    4)
+        change_port
         ;;
     0)
         exit 0
