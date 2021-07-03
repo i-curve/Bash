@@ -411,8 +411,8 @@ function change_port() {
     green "================================="
     green "请输入你要绑定的端口:"
     read $local_port
-    sed -i 's/"local_port":.*/"local_port": '$local_port'/g'  /etc/trojan/trojan/service/server.conf
-    systemctc resetart trojan.service
+    sed -i 's/"local_port":.*/"local_port": '$local_port'/g'  /etc/trojan/trojan/server.conf
+    systemctl restart trojan.service
 }
 
 # start_menu 脚本入口
