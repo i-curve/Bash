@@ -149,13 +149,13 @@ function check_domain() {
 # install_cert 安装cert证书
 function install_cert() {
     #申请https证书
-    mkdir ~/trojan-cert
+    mkdir -p ~/trojan-cert
     curl https://get.acme.sh | sh -s email=wjuncurve@gmail.com
     ~/.acme.sh/acme.sh --issue -d $your_domain --webroot /var/www/trojan
     ~/.acme.sh/acme.sh --installcert -d $your_domain \
         --key-file ~/trojan-cert/private.key \
         --fullchain-file ~/trojan-cert/fullchain.cer \
-        --reloadcmd "systemctl force-reload  nginx.service"
+        --reloadcmd "systemctl reload  nginx.service" \
         --debug
     rm -rf ~/.acme.sh # 删除已无用的acme程序
 
@@ -174,6 +174,9 @@ function install_cert() {
 
 # install_web 安装web服务
 function install_web() {
+    green "=========================================="
+    green "安装web服务                       "
+    green "=========================================="
     cat >/etc/nginx/sites-enabled/trojan <<-EOF
 server {
     listen       80;
@@ -191,6 +194,7 @@ server {
 EOF
     #伪站点,位于/var/www/trojan
     mkdir -p /var/www/trojan && cd /var/www/trojan
+    chown -R www-data /var/www/trojan && chgrp -R www-data /var/www/trojan
     wget https://github.com/i-curve/Trojan/raw/master/web.zip && unzip web.zip && rm web.zip
     service nginx restart
 }
@@ -327,11 +331,11 @@ function genernate_download() {
 # install_trojan 安装trojan
 function install_trojan() {
     install_dependency # 安装依赖项
+    install_web        # 安装web服务
     check_domain       # 核对域名
     if [[ "$?" = "1" ]]; then exit 1; fi
     install_cert #申请https证书
     if [[ "$?" = "2" ]]; then exit 2; fi
-    install_web # 安装web服务
     #安装trojan
     mkdir -p /etc/trojan && cd /etc/trojan
     install_trojan_client # 安装trojan客户端
