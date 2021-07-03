@@ -3,7 +3,7 @@
 #仅占用本域名访问,ip或其他域名访问不影响
 #如果443端口被占用,需要手动修改trojan配置文件端口
 #fonts color
-version=2.0
+version=3.1
 
 # 脚本格式化输出信息
 function yellow() {
@@ -323,7 +323,7 @@ function genernate_download() {
     cd /etc/trojan/trojan-cli/
     zip -q -r trojan-cli.zip /etc/trojan/trojan-cli/
     trojan_path=$(cat /dev/urandom | head -1 | md5sum | head -c 16)
-    mkdir /var/www/html/${trojan_path}
+    mkdir /var/www/trojan/${trojan_path}
     mv /etc/trojan/trojan-cli/trojan-cli.zip /var/www/trojan/${trojan_path}/
 }
 
@@ -348,12 +348,9 @@ function install_trojan() {
     green "Trojan已安装完成，请使用以下链接下载trojan客户端，此客户端已配置好所有参数"
     green "1、复制下面的链接，在浏览器打开，下载客户端"
     yellow "http://${your_domain}/$trojan_path/trojan-cli.zip"
-    red "请记录下面规则网址"
-    yellow "http://${your_domain}/trojan.txt"
     green "2、将下载的压缩包解压，打开文件夹，打开start.bat即打开并运行Trojan客户端"
     green "3、打开stop.bat即关闭Trojan客户端"
     green "4、Trojan客户端需要搭配浏览器插件使用，例如switchyomega等"
-    green "访问  https://www.v2rayssr.com/trojan-1.html ‎ 下载 浏览器插件 及教程"
     green "======================================================================"
 }
 
@@ -402,7 +399,6 @@ function repair_cert() {
 
     green "================================"
     green "修复成功"
-    green "可以直接在http://${your_domain}/fullchain.cer 下载cer文件"
     red "================================"
 }
 
