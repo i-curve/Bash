@@ -150,12 +150,14 @@ function check_domain() {
 function install_cert() {
     #申请https证书
     mkdir -p ~/trojan-cert
-    curl https://get.acme.sh | sh -s email=wjuncurve@gmail.com
+    # curl https://get.acme.sh | sh -s email=wjuncurve@gmail.com
+    curl https://get.acme.sh | sh
+    ~/.acme.sh/acme.sh --set-default-ca --server letsencrypt
     ~/.acme.sh/acme.sh --issue -d $your_domain --webroot /var/www/trojan
     ~/.acme.sh/acme.sh --installcert -d $your_domain \
         --key-file ~/trojan-cert/private.key \
         --fullchain-file ~/trojan-cert/fullchain.cer \
-        --reloadcmd "service nginx force-reload" \
+        --reloadcmd "service nginx force-reload && service trojan restart" \
         --debug
 
     if [[ ! -s ~/trojan-cert/fullchain.cer ]]; then
@@ -362,13 +364,13 @@ function remove_trojan() {
 
     systemctl stop trojan && systemctl disable trojan #停止正在运行的trojan服务
 
-    rm -rf ~/.acme.sh                      # 删除无用的acme服务
-    rm -f ${sysPwd}trojan.service          # 删除trojan服务
-    rm -rf /etc/trojan                     # 删除trojan文件
-    rm -rf /root/trojan-cert               # 删除证书
-    rm -rf /etc/nginx/sites-enabled/trojan # 删除nginx中的配置
-    rm -rf /var/www/trojan                 # 删除网站
-    service nginx restart                  # 重启nginx服务
+    ~/.acme.sh --uninstall && rm -rf ~/.acme.sh # 卸载acme
+    rm -f ${sysPwd}trojan.service               # 删除trojan服务
+    rm -rf /etc/trojan                          # 删除trojan文件
+    rm -rf /root/trojan-cert                    # 删除证书
+    rm -rf /etc/nginx/sites-enabled/trojan      # 删除nginx中的配置
+    rm -rf /var/www/trojan                      # 删除网站
+    service nginx restart                       # 重启nginx服务
 
     green "=============="
     green "trojan删除完毕"
@@ -404,14 +406,14 @@ function repair_cert() {
 
 # change_port 修改trojan端口
 function change_port() {
-    if [[ ! -f  /etc/trojan/trojan/server.conf ]]; then
+    if [[ ! -f /etc/trojan/trojan/server.conf ]]; then
         yellow " 配置文件不存在, 请先确认是否安装trojan"
         exit 5
     fi
     green "================================="
     green "请输入你要绑定的端口:"
     read local_port
-    sed -i 's/"local_port":.*/"local_port": '$local_port',/g'  /etc/trojan/trojan/server.conf
+    sed -i 's/"local_port":.*/"local_port": '$local_port',/g' /etc/trojan/trojan/server.conf
     systemctl restart trojan.service
 }
 
