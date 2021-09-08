@@ -21,7 +21,7 @@ red() {
 }
 # check 检查系统是否符合
 function check() {
-	if cat /etc/issue | grep -Eqi "debian|ubuntu|kali"; then
+	if cat /etc/issue | grep -Eqi "debian|ubuntu|kali|deepin"; then
 		systemPackage="apt-get"
 	elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
 		systemPackage="yum"
