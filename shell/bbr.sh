@@ -476,7 +476,7 @@ check_sys() {
 		release="ubuntu"
 	elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
 		release="centos"
-	elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
+	elif cat /etc/issue | grep -q -E -i "deepin"; then
 		release="deepin"
 	elif cat /proc/version | grep -q -E -i "debian"; then
 		release="debian"
