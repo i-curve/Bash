@@ -3,7 +3,7 @@
 # @Author: curve
 # @Date: 2021-12-14 20:16:04
 # @Last Modified by: curve
-# @Last Modified time: 2021-12-14 20:49:03
+# @Last Modified time: 2021-12-14 23:56:42
 ##
 
 set -e
@@ -24,7 +24,7 @@ red() {
 }
 
 # check 检查系统是否符合
-function util_check() {
+function UtilCheck() {
     green "check system"
     if cat /etc/issue | grep -Eqi "debian|ubuntu|kali|deepin"; then
         systemPackage="apt-get"
@@ -36,14 +36,14 @@ function util_check() {
     fi
 }
 
-# get_version (  url flags)更新脚本
-function util_get_version() {
+# UtilGetVersion (  url flags)更新脚本
+function UtilGetVersion() {
     local version=$(curl -sL $1 | grep $2 | cut -d'=' -f2)
     echo $version
 }
 
-# echo_head $1:target 输出message头部
-function util_echo_head() {
+# UtilEchoHead $1:target 输出message头部
+function UtilEchoHead() {
     clear
     green "======================================="
     green "======================================="

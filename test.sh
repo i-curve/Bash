@@ -3,10 +3,8 @@
 # @Author: curve
 # @Date: 2021-03-01 17:41:01
 # @Last Modified by: curve
-# @Last Modified time: 2021-12-14 19:50:30
+# @Last Modified time: 2021-12-14 23:25:34
 ##
-
-set -e
 
 yellow() {
     echo -e "\033[33m\033[01m$1\033[0m"
