@@ -40,7 +40,7 @@ alias tm='tmux'
 alias rm='rm -i'
 export GOPROXY=https://goproxy.io
 $name
-4 # <<< linux initialize <<<
+# <<< linux initialize <<<
 EOF
 
 	3. vimrc配置
