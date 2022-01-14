@@ -30,20 +30,15 @@ sudo $systemPackage -y autoremove
 EOF
 	chmod +x ~/update.sh
 
-	read -p "Please type the name:" -t 10 st
-	if [[ -z "$st" ]]; then st=linux; fi
-	name="export PS1=\"\\u@$st>\" "
-
 	cat >>~/.bashrc <<EOF
  # >>> linux initialize >>>
 alias tm='tmux'
 alias rm='rm -i'
 export GOPROXY=https://goproxy.io
-$name
 # <<< linux initialize <<<
 EOF
 
-	3. vimrc配置
+	#3. vimrc配置
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
