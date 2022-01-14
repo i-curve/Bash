@@ -45,7 +45,7 @@ EOF
 	cd ~
 	git clone $config
 	ln -s $(pwd)/config/vimrc $(pwd)/.vimrc
-	ln -s $(pwd)/config/tmux $(pwd).tmux.conf
+	cp $(pwd)/config/tmux ~/.tmux.conf
 }
 
 #start 入口
