@@ -138,16 +138,27 @@ function check_domain() {
         red "域名解析地址与本VPS IP地址不一致"
         red "本次安装失败，请确保域名解析正常"
         red "================================"
-        return 1 # 返回码1 域名验证失败
+        return 3 # 返回码3 域名验证失败
     fi
     # 域名验证成功
     green "=========================================="
     green "域名解析正常                        "
     green "=========================================="
+
+}
+
+# check_port 检查端口是否占用
+function check_port() {
     green "============================="
     green "请输入trojan的端口"
     green "============================="
     read your_port
+    if netstat -lnp | grep $your_port; then
+        red "================================"
+        red "端口被占用，请切换端口"
+        red "================================"
+        return 5 # 返回码5 端口被占用
+    fi
 }
 
 # install_cert 安装cert证书
@@ -337,6 +348,7 @@ function genernate_download() {
 function install_trojan() {
     install_dependency # 安装依赖项
     check_domain       # 核对域名
+    check_port         # 核对端口
     install_web        # 安装web服务
     if [[ "$?" = "1" ]]; then exit 1; fi
     install_cert #申请https证书
