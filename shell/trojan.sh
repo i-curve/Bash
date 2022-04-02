@@ -144,6 +144,10 @@ function check_domain() {
     green "=========================================="
     green "域名解析正常                        "
     green "=========================================="
+    green "============================="
+    green "请输入trojan的端口"
+    green "============================="
+    read your_port
 }
 
 # install_cert 安装cert证书
@@ -257,7 +261,7 @@ function install_trojan_server() {
 {
     "run_type": "server",
     "local_addr": "0.0.0.0",
-    "local_port": 443,
+    "local_port": ${your_port},
     "remote_addr": "127.0.0.1",
     "remote_port": 80,
     "password": [
@@ -364,13 +368,14 @@ function remove_trojan() {
 
     systemctl stop trojan && systemctl disable trojan #停止正在运行的trojan服务
 
-    ~/.acme.sh --uninstall && rm -rf ~/.acme.sh # 卸载acme
-    rm -f ${sysPwd}trojan.service               # 删除trojan服务
-    rm -rf /etc/trojan                          # 删除trojan文件
-    rm -rf /root/trojan-cert                    # 删除证书
-    rm -rf /etc/nginx/sites-enabled/trojan      # 删除nginx中的配置
-    rm -rf /var/www/trojan                      # 删除网站
-    service nginx restart                       # 重启nginx服务
+    ~/.acme.sh --uninstall
+    rm -rf ~/.acme.sh                      # 卸载acme
+    rm -f ${sysPwd}trojan.service          # 删除trojan服务
+    rm -rf /etc/trojan                     # 删除trojan文件
+    rm -rf /root/trojan-cert               # 删除证书
+    rm -rf /etc/nginx/sites-enabled/trojan # 删除nginx中的配置
+    rm -rf /var/www/trojan                 # 删除网站
+    service nginx restart                  # 重启nginx服务
 
     green "=============="
     green "trojan删除完毕"
