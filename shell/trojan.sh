@@ -151,7 +151,7 @@ function install_cert() {
     #申请https证书
     mkdir -p ~/trojan-cert
     # curl https://get.acme.sh | sh -s email=wjuncurve@gmail.com
-    curl https://get.acme.sh | sh
+    curl https://get.acme.sh | sh -s email=i-curve@qq.com
     ~/.acme.sh/acme.sh --set-default-ca --server letsencrypt
     ~/.acme.sh/acme.sh --issue -d $your_domain --webroot /var/www/trojan
     ~/.acme.sh/acme.sh --installcert -d $your_domain \
