@@ -63,6 +63,11 @@ function InstallVim() {
     green "vim安装OK"
 }
 
+# InstallNVM 安装nvm
+function InstallNVM() {
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+}
+
 # Start 入口
 function Start() {
     UtilEchoHead "linux初始配置"
@@ -75,6 +80,8 @@ function Start() {
     yellow " 3. 安装vim"
     green " ====================="
     yellow " 4. 安装更新脚本"
+    green " ====================="
+    yellow " 5. 安装nvm"
     green " ====================="
     yellow " 0. 退出"
     echo
@@ -91,6 +98,9 @@ function Start() {
         ;;
     4)
         InstallUpdate
+        ;;
+    5)
+        InstallNVM
         ;;
     *)
         exit 0
