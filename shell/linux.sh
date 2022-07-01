@@ -17,7 +17,7 @@ function Install() {
     sudo $systemPackage -y upgrade
     sudo $systemPackage install -y git vim tmux
     
-    if [[ cat /etc/issue | grep -qi "ubuntu" ]];then
+    if cat /etc/issue | grep -qi "ubuntu";then
         # c++ 换源
         sudo $systemPackage install software-properties-common
         sudo $systemPackage install software-properties-common
@@ -37,6 +37,8 @@ EOF
     InstallShip
     InstallVim
     InstallUpdate
+    InstallNVM
+    InstallShfmt
 }
 
 # InstallUpdate 安装更新脚本
@@ -79,6 +81,11 @@ function InstallNVM() {
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 }
 
+# InstallShfmt 安装shfmt
+function InstallShfmt() {
+    curl -sS https://webinstall.dev/shfmt | bash
+}
+
 # Start 入口
 function Start() {
     UtilEchoHead "linux初始配置"
@@ -93,6 +100,8 @@ function Start() {
     yellow " 4. 安装更新脚本"
     green " ====================="
     yellow " 5. 安装nvm"
+    green " ====================="
+    yellow " 6. 安装shfmt"
     green " ====================="
     yellow " 0. 退出"
     echo
@@ -112,6 +121,9 @@ function Start() {
         ;;
     5)
         InstallNVM
+        ;;
+    6)
+        InstallShfmt
         ;;
     *)
         exit 0
