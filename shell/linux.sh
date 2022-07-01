@@ -16,6 +16,16 @@ function Install() {
     sudo $systemPackage update
     sudo $systemPackage -y upgrade
     sudo $systemPackage install -y git vim tmux
+    
+    if [[ cat /etc/issue | grep -qi "ubuntu" ]];then
+        # c++ 换源
+        sudo $systemPackage install software-properties-common
+        sudo $systemPackage install software-properties-common
+        # go 换源
+        sudo add-apt-repository ppa:longsleep/golang-backports
+        sudo apt-get update
+        sudo apt-get install golang-go
+    fi
 
     cat >>~/.bashrc <<EOF
  # >>> linux initialize >>>
@@ -60,6 +70,7 @@ function InstallVim() {
     fi
     ln -s $(pwd)/config/vimrc $(pwd)/.vimrc
     ln -s $(pwd)/config/tmux $(pwd)/.tmux.conf
+    ln -s $(pwd)/config/.ycm_extra_conf.py $(pwd)/.ycm_extra_conf.py
     green "vim安装OK"
 }
 
