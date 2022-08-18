@@ -52,3 +52,11 @@ function UtilEchoHead() {
     green " System：centos7+/debian9+/ubuntu18.04+"
     green "======================================="
 }
+
+# ErrorExit: 程序异常退出
+# $1: errorCode 程序退出码
+# $2: errorMsg 程序错误信息
+function ErrorExit() {
+    red $2
+    exit $1
+}

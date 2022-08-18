@@ -16,8 +16,8 @@ function Install() {
     sudo $systemPackage update
     sudo $systemPackage -y upgrade
     sudo $systemPackage install -y git vim tmux
-    
-    if cat /etc/issue | grep -qi "ubuntu";then
+
+    if cat /etc/issue | grep -qi "ubuntu"; then
         # c++ 换源
         sudo $systemPackage install software-properties-common
         sudo $systemPackage install software-properties-common
@@ -64,8 +64,7 @@ function InstallVim() {
     cd ~
     if [[ ! -d .vim ]]; then
         curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || red "vim安装失败" ||
-            exit 2
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || ErrorExit 2 "vim 安装失败"
     fi
     if [[ ! -d config ]]; then
         git clone $config
