@@ -3,7 +3,7 @@
 # @Author: curve
 # @Date: 2021-12-14 20:16:04
 # @Last Modified by: curve
-# @Last Modified time: 2021-12-14 23:56:42
+# @Last Modified time: 2023-01-04 21:31:04
 ##
 
 set -e
@@ -27,7 +27,7 @@ red() {
 function UtilCheck() {
     green "check system"
     if cat /etc/issue | grep -Eqi "debian|ubuntu|kali|deepin"; then
-        systemPackage="apt-get"
+        systemPackage="apt"
     elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
         systemPackage="yum"
     else

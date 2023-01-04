@@ -1,3 +1,4 @@
 nextcloud.sh
 shell/trojan
 trojan/cert
+.vscode/*
