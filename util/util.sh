@@ -3,7 +3,7 @@
 # @Author: curve
 # @Date: 2021-12-14 20:16:04
 # @Last Modified by: curve
-# @Last Modified time: 2023-01-04 21:31:04
+# @Last Modified time: 2023-01-06 09:46:19
 ##
 
 set -e
@@ -59,4 +59,10 @@ function UtilEchoHead() {
 function ErrorExit() {
     red $2
     exit $1
+}
+
+function GetIPCountry() {
+    ip=$(curl -s getip.tk)
+    country=$(curl -s country.getip.tk?ip=${ip})
+    echo "$country"
 }
