@@ -13,19 +13,9 @@ UtilCheck
 # Install 执行安装
 function Install() {
     # 更新软件包
-    sudo $systemPackage update
-    sudo $systemPackage -y upgrade
-    sudo $systemPackage install -y git vim tmux
-
-    if cat /etc/issue | grep -qi "ubuntu"; then
-        # c++ 换源
-        sudo $systemPackage install software-properties-common
-        sudo $systemPackage install software-properties-common
-        # go 换源
-        sudo add-apt-repository ppa:longsleep/golang-backports
-        sudo apt-get update
-        sudo apt-get install golang-go
-    fi
+    # sudo $systemPackage update
+    # sudo $systemPackage -y upgrade
+    # sudo $systemPackage install -y git vim tmux
 
     cat >>~/.bashrc <<EOF
  # >>> linux initialize >>>
@@ -55,7 +45,22 @@ EOF
 # InstallShip 安装ship
 function InstallShip() {
     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-    echo 'eval "$(starship init bash)"' >>~/.bashrc
+    cat >>~/.bashrc <<EOF
+eval "$(starship init bash)" 
+EOF
+}
+
+# InstallGoPPA go 换源
+function InstallGoPPA() {
+    if cat /etc/issue | grep -qi "ubuntu"; then
+        # c++ 换源
+        sudo $systemPackage install software-properties-common
+        sudo $systemPackage install software-properties-common
+        # go 换源
+        sudo add-apt-repository ppa:longsleep/golang-backports
+        sudo apt-get update
+        sudo apt-get install golang-go
+    fi
 }
 
 # InstallVim 配置vim
