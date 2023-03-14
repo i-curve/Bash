@@ -15,12 +15,10 @@
 | name        | 描述                       |
 | ----------- | -------------------------- |
 | test.sh     | 测试常用 github 网站可用性 |
-| ubuntu.sh   | 新安装的系统进行初始化     |
-| lnmp.sh     | 一键安装 lnmp              |
-| lamp.sh     | 一键安装 lamp              |
-| DNS.sh      | 安装 dns 域名解析服务器    |
+| dns.sh      | 安装 dns 域名解析服务器    |
+| linux.sh    | 新安装的系统进行初始化     |
 | swapfile.sh | linux 系统虚拟内存配置脚本 |
-| Trojan.sh   | 一键安装 trojan            |
+| trojan.sh   | 一键安装 trojan            |
 
 ## 用法
 

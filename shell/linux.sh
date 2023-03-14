@@ -1,9 +1,13 @@
 #!/bin/bash
-#author: curve
-#名称:linux初始系统一键配置大全,包括更新脚本,bash配置,vim配置
-#System:Ubuntu 18.04
-
+## bash
+# @Author: i-curve
+# @Date: 2020-03-21 20:16:04
+# @Last Modified by: curve
+# @Name: linux初始化
+##
 set -e
+
+# shellcheck source=/root/Bash/util/util.sh
 source "$(dirname $0)/../util/util.sh"
 
 config="https://github.com/i-curve/config.git"
@@ -12,23 +16,44 @@ UtilCheck
 
 # Install 执行安装
 function Install() {
-    # 更新软件包
-    # sudo $systemPackage update
-    # sudo $systemPackage -y upgrade
-    # sudo $systemPackage install -y git vim tmux
-
     cat >>~/.bashrc <<EOF
  # >>> linux initialize >>>
 alias tm='tmux'
 alias rm='rm -i'
-export GOPROXY=https://goproxy.io
+export GOPROXY=https://proxy.golang.com.cn,direct
 # <<< linux initialize <<<
 EOF
     InstallShip
     InstallVim
     InstallUpdate
+    InstallGoPPA
     InstallNVM
     InstallShfmt
+}
+
+# InstallShip 安装ship
+function InstallShip() {
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)" || ErrorExit 2 "starship 下载失败, 请检查网络"
+    cat >>~/.bashrc <<EOF
+eval "$(starship init bash)" 
+EOF
+}
+
+# InstallVim 配置vim
+function InstallVim() {
+    green "开始安装vim..."
+    cd ~
+    if [[ ! -d .vim ]]; then
+        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || ErrorExit 3 "vim-plug 下载失败, 请检查网络(外网)"
+    fi
+    if [[ ! -d config ]]; then
+        git clone $config || ErrorExit 10 "https://i-curve/i-curve/config 克隆失败, 请检查网络"
+    fi
+    ln -s "$(pwd)/config/vimrc" "$(pwd)/.vimrc"
+    ln -s" $(pwd)/config/tmux" "$(pwd)/.tmux.conf"
+    ln -s "$(pwd)/config/.ycm_extra_conf.py" "$(pwd)/.ycm_extra_conf.py"
+    green "vim安装成功"
 }
 
 # InstallUpdate 安装更新脚本
@@ -42,17 +67,10 @@ EOF
     chmod +x ~/update.sh
     green "更新脚本OK"
 }
-# InstallShip 安装ship
-function InstallShip() {
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-    cat >>~/.bashrc <<EOF
-eval "$(starship init bash)" 
-EOF
-}
-
 # InstallGoPPA go 换源
 function InstallGoPPA() {
-    if cat /etc/issue | grep -qi "ubuntu"; then
+    green "开始安装ppa..."
+    if grep -qi "ubuntu" /etc/issue; then
         # c++ 换源
         sudo $systemPackage install software-properties-common
         sudo $systemPackage install software-properties-common
@@ -63,31 +81,14 @@ function InstallGoPPA() {
     fi
 }
 
-# InstallVim 配置vim
-function InstallVim() {
-    green "开始安装vim"
-    cd ~
-    if [[ ! -d .vim ]]; then
-        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || ErrorExit 2 "vim 安装失败"
-    fi
-    if [[ ! -d config ]]; then
-        git clone $config
-    fi
-    ln -s $(pwd)/config/vimrc $(pwd)/.vimrc
-    ln -s $(pwd)/config/tmux $(pwd)/.tmux.conf
-    ln -s $(pwd)/config/.ycm_extra_conf.py $(pwd)/.ycm_extra_conf.py
-    green "vim安装OK"
-}
-
 # InstallNVM 安装nvm
 function InstallNVM() {
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash || ErrorExit 4 "NVM 安装失败, 请检查网络(外网)"
 }
 
 # InstallShfmt 安装shfmt
 function InstallShfmt() {
-    curl -sS https://webinstall.dev/shfmt | bash
+    curl -sS https://webinstall.dev/shfmt | bash || ErrorExit 5 "shfmt 安装失败, 请检查网络"
 }
 
 # Start 入口

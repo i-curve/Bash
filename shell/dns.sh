@@ -1,8 +1,13 @@
 #!/bin/bash
-#curve
-#安装dns服务器
-
+## bash
+# @Author: curve
+# @Date: 2020-03-21 20:16:04
+# @Last Modified by: curve
+# @Name: 安装dns
+##
 set -e
+
+# shellcheck source=../util/util.sh
 source "$(dirname $0)/../util/util.sh"
 
 UtilCheck
@@ -32,10 +37,11 @@ EOF
 
 start() {
     UtilEchoHead "DNS服务器安装脚本"
+    echo
     green "============================"
-    red " 1. 安装DNS服务器"
+    yellow " 1. 安装DNS服务器"
     green "============================"
-    red " 0. 退出脚本"
+    yellow " 0. 退出脚本"
     green "============================"
     echo
     read -p "请输入数字:" num
@@ -44,7 +50,7 @@ start() {
         Install
         ;;
     *)
-        exit
+        exit 0
         ;;
     esac
 }

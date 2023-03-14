@@ -1,16 +1,16 @@
 #!/bin/bash
 ## bash
-# @Author: curve
+# @Author: i-curve
 # @Date: 2021-12-14 20:16:04
 # @Last Modified by: curve
-# @Last Modified time: 2023-01-06 09:46:19
+# @Name: util script
 ##
-
 set -e
 
 ########################const variable
+version=4.0
 filename=$0
-filepath=$(dirname $0)
+filepath=$(dirname "$0")
 ##############################
 
 yellow() {
@@ -25,44 +25,46 @@ red() {
 
 # check 检查系统是否符合
 function UtilCheck() {
-    green "check system"
-    if cat /etc/issue | grep -Eqi "debian|ubuntu|kali|deepin"; then
+    if grep -Eqi "debian|ubuntu|kali|deepin" /etc/issue ||
+        grep -Eqi "debian|ubuntu|kali|deepin" /proc/version; then
         systemPackage="apt"
-    elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
+        sysPwd="/lib/systemd/system"
+    elif grep -Eqi "centos|red hat|redhat" /etc/issue ||
+        grep -Eqi "centos|red hat|redhat" /proc/version; then
         systemPackage="yum"
+        sysPwd="/usr/lib/systemd/system"
     else
-        red "系统不匹配"
-        exit 1
+        ErrorExit 1 "系统不匹配"
     fi
+    green "check system ok"
 }
 
-# UtilGetVersion (  url flags)更新脚本
-function UtilGetVersion() {
-    local version=$(curl -sL $1 | grep $2 | cut -d'=' -f2)
-    echo $version
-}
+# # UtilGetVersion (  url flags)更新脚本
+# function UtilGetVersion() {
+#     local version=$(curl -sL "$1" | grep "$2" | cut -d'=' -f2)
+#     echo "$version"
+# }
 
 # UtilEchoHead $1:target 输出message头部
 function UtilEchoHead() {
     clear
     green "======================================="
     green "======================================="
-    green " Author:curve"
-    green " Target:$1"
+    green " Author: i-curve"
+    green " Target: $1"
     green " System：centos7+/debian9+/ubuntu18.04+"
     green "======================================="
 }
 
-# ErrorExit: 程序异常退出
+# ErrorExit $1 $2: 程序异常退出
 # $1: errorCode 程序退出码
 # $2: errorMsg 程序错误信息
 function ErrorExit() {
-    red $2
-    exit $1
+    red "ERROR: $2" && exit "$1"
 }
 
 function GetIPCountry() {
     ip=$(curl -s getip.tk)
-    country=$(curl -s country.getip.tk?ip=${ip})
+    country=$(curl -s https://country.getip.tk?ip="${ip}")
     echo "$country"
 }
