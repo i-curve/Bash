@@ -107,7 +107,7 @@ function install_trojan_client() {
     unzip trojan-cli-win.zip && rm -f trojan-cli-win.zip
 
     cp ~/trojan-cert/fullchain.cer /etc/trojan/trojan-cli/fullchain.cer
-    sed -i 's/your_domain/'$your_domain'/;s/trojan_passwd/'$trojan_passwd'/' /etc/trojan/trojan-cli/config.json
+    sed -i 's/your_domain/'${your_domain}'/;s/443/'${your_port}'/;s/trojan_passwd/'${trojan_passwd}'/' /etc/trojan/trojan-cli/config.json
 }
 
 # genernate_startup 生成启动脚本
@@ -134,11 +134,11 @@ EOF
 
 # genernate_download 打包客户端以供下载
 function genernate_download() {
-    cd /etc/trojan/trojan-cli/
-    zip -q -r trojan-cli.zip /etc/trojan/trojan-cli/
+    cd /etc/trojan/
+    zip -q -r trojan-cli.zip trojan-cli/
     trojan_path=$(cat /dev/urandom | head -1 | md5sum | head -c 16)
     mkdir /var/www/trojan/${trojan_path}
-    mv /etc/trojan/trojan-cli/trojan-cli.zip /var/www/trojan/${trojan_path}/
+    mv /etc/trojan/trojan-cli.zip /var/www/trojan/${trojan_path}/
 }
 
 # install_trojan 安装trojan
