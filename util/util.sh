@@ -39,12 +39,6 @@ function UtilCheck() {
     green "check system ok"
 }
 
-# # UtilGetVersion (  url flags)更新脚本
-# function UtilGetVersion() {
-#     local version=$(curl -sL "$1" | grep "$2" | cut -d'=' -f2)
-#     echo "$version"
-# }
-
 # UtilEchoHead $1:target 输出message头部
 function UtilEchoHead() {
     clear
