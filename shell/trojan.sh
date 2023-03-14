@@ -62,7 +62,7 @@ function install_cert() {
         --key-file ~/trojan-cert/private.key \
         --fullchain-file ~/trojan-cert/fullchain.cer \
         --reloadcmd "service nginx force-reload" \
-        --debug
+        --debug --force
 
     if [[ ! -s ~/trojan-cert/fullchain.cer ]]; then
         rm -rf ~/trojan-cert
@@ -92,15 +92,17 @@ EOF
 
 # install_trojan_server 安装trojan服务端
 function install_trojan_server() {
+    green "安装 trojan 服务端..."
     wget https://github.com/i-curve/Trojan/raw/master/trojan-latest-linux-amd64.tar.xz || ErrorExit 4 "trojan服务端下载失败"
     tar xf trojan-* && rm -f trojan-.*
 
     trojan_passwd=$(cat /dev/urandom | head -1 | md5sum | head -c 8)
-    sed -i 's/443/'${your_port}'/;s/your_passwd/'${trojan_passwd}'/' /etc/trojan/trojan/server.conf
+    sed -i 's/443/'${your_port}'/;s/your_passwd/'${trojan_passwd}'/' /etc/trojan/trojan/server.json
 }
 
 # install_trojan_client 安装trojan客户端
 function install_trojan_client() {
+    green "安装 trojan 客户端..."
     wget https://github.com/i-curve/Trojan/raw/master/trojan-cli-win.zip || ErrorExit 3 "客户端下载失败"
     unzip trojan-cli.zip && rm -f trojan-cli.zip
 
@@ -118,7 +120,7 @@ After=network.target
 [Service]  
 Type=simple  
 PIDFile=/etc/trojan/trojan/trojan.pid
-ExecStart=/etc/trojan/trojan/trojan -c "/etc/trojan/trojan/server.conf"  
+ExecStart=/etc/trojan/trojan/trojan -c "/etc/trojan/trojan/server.json"  
 ExecReload=/bin/kill -HUP \$MAINPID
 # Restart=on-failure
 # RestartSec=1s
@@ -194,12 +196,12 @@ function repair_cert() {
 
 # change_port 修改trojan端口
 function change_port() {
-    if [[ ! -f /etc/trojan/trojan/server.conf ]]; then
+    if [[ ! -f /etc/trojan/trojan/server.json ]]; then
         exit 5 "配置文件不存在, 请先确认是否安装trojan"
     fi
     green "请输入你要绑定的端口:"
     read local_port
-    sed -i 's/"local_port":.*/"local_port": '$local_port',/g' /etc/trojan/trojan/server.conf
+    sed -i 's/"local_port":.*/"local_port": '$local_port',/g' /etc/trojan/trojan/server.json
     systemctl restart trojan.service
 
     green "端口绑定成功"
