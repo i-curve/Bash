@@ -94,7 +94,7 @@ EOF
 function install_trojan_server() {
     green "安装 trojan 服务端..."
     wget https://github.com/i-curve/Trojan/raw/master/trojan-latest-linux-amd64.tar.xz || ErrorExit 4 "trojan服务端下载失败"
-    tar xf trojan-* && rm -f trojan-.*
+    tar xf trojan-* && rm -f trojan-.* && rm -r trojan-latest-linux-amd64.tar.xz
 
     trojan_passwd=$(cat /dev/urandom | head -1 | md5sum | head -c 8)
     sed -i 's/443/'${your_port}'/;s/your_passwd/'${trojan_passwd}'/' /etc/trojan/trojan/server.json
@@ -104,7 +104,7 @@ function install_trojan_server() {
 function install_trojan_client() {
     green "安装 trojan 客户端..."
     wget https://github.com/i-curve/Trojan/raw/master/trojan-cli-win.zip || ErrorExit 3 "客户端下载失败"
-    unzip trojan-cli.zip && rm -f trojan-cli.zip
+    unzip trojan-cli-win.zip && rm -f trojan-cli-win.zip
 
     cp ~/trojan-cert/fullchain.cer /etc/trojan/trojan-cli/fullchain.cer
     sed -i 's/your_domain/'$your_domain'/;s/trojan_passwd/'$trojan_passwd'/' /etc/trojan/trojan-cli/config.json
