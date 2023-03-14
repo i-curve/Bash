@@ -61,7 +61,7 @@ function install_cert() {
     ~/.acme.sh/acme.sh --installcert -d $your_domain \
         --key-file ~/trojan-cert/private.key \
         --fullchain-file ~/trojan-cert/fullchain.cer \
-        --reloadcmd "service nginx force-reload && service trojan restart" \
+        --reloadcmd "service nginx force-reload" \
         --debug
 
     if [[ ! -s ~/trojan-cert/fullchain.cer ]]; then
@@ -166,14 +166,14 @@ function install_trojan() {
 function remove_trojan() {
     red "正在卸载trojan..."
 
-    systemctl stop trojan && systemctl disable trojan #停止正在运行的trojan服务
-    ~/.acme.sh --uninstall && rm -rf ~/.acme.sh       # 卸载acme
-    rm -f ${sysPwd}/trojan.service                    # 删除trojan服务
-    rm -rf /etc/trojan                                # 删除trojan文件
-    rm -rf /root/trojan-cert                          # 删除证书
-    rm -rf /etc/nginx/sites-enabled/trojan            # 删除nginx中的配置
-    rm -rf /var/www/trojan                            # 删除网站
-    service nginx restart                             # 重启nginx服务
+    systemctl stop trojan && systemctl disable trojan   #停止正在运行的trojan服务
+    ~/.acme.sh/acme.sh --uninstall && rm -rf ~/.acme.sh # 卸载acme
+    rm -f ${sysPwd}/trojan.service                      # 删除trojan服务
+    rm -rf /etc/trojan                                  # 删除trojan文件
+    rm -rf /root/trojan-cert                            # 删除证书
+    rm -rf /etc/nginx/sites-enabled/trojan              # 删除nginx中的配置
+    rm -rf /var/www/trojan                              # 删除网站
+    service nginx restart                               # 重启nginx服务
 
     green "trojan 卸载完毕"
 }
