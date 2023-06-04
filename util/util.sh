@@ -58,7 +58,7 @@ function ErrorExit() {
 }
 
 function GetIPCountry() {
-    ip=$(curl -s getip.tk)
-    country=$(curl -s https://country.getip.tk?ip="${ip}")
+    ip=$(curl -s getip.cc)
+    country=$(curl -s https://country.getip.cc?ip="${ip}")
     echo "$country"
 }

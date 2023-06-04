@@ -27,7 +27,7 @@ function check_domain() {
     green "============================="
     read your_domain
     real_addr=$(ping ${your_domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}')
-    local_addr=$(curl getip.tk)
+    local_addr=$(curl getip.cc)
     # 如果域名验证失败
     if [[ "$real_addr" != "$local_addr" ]]; then
         ErrorExit 3 "域名验证失败,域名解析地址与本VPS IP地址不一致"
