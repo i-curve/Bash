@@ -97,12 +97,13 @@ function install_trojan() { # install_trojan 安装trojan
 
 function remove_trojan() { # remove_trojan 移除trojan
     red "正在卸载trojan..."
-    systemctl stop trojan && systemctl disable trojan #停止正在运行的trojan服务
-    rm -f ${sysPwd}/trojan.service                    # 删除trojan服务
-    rm -rf /etc/trojan                                # 删除trojan文件
-    rm -rf /etc/nginx/sites-enabled/trojan            # 删除nginx中的配置
-    rm -rf /var/www/trojan                            # 删除网站
-    service nginx restart                             # 重启nginx服务
+    systemctl stop trojan.service
+    systemctl disable trojan.service       #停止正在运行的trojan服务
+    rm -rf ${sysPwd}/trojan.service        # 删除trojan服务
+    rm -rf /etc/trojan                     # 删除trojan文件
+    rm -rf /etc/nginx/sites-enabled/trojan # 删除nginx中的配置
+    rm -rf /var/www/trojan                 # 删除网站
+    service nginx restart                  # 重启nginx服务
 
     green "trojan 卸载完毕"
 }
