@@ -7,7 +7,6 @@
 ##
 set -e
 
-# shellcheck source=../util/util.sh
 source "$(dirname $0)/../util/util.sh"
 source "$(dirname $0)/../util/data.sh"
 
@@ -74,10 +73,7 @@ function install_trojan_server() {
 
     trojan_passwd=$(cat /dev/urandom | head -1 | md5sum | head -c 12)
     sed -i 's/443/'${your_port}'/;s/your_passwd/'${trojan_passwd}'/' /etc/trojan/trojan/server.json
-}
 
-# genernate_startup 生成启动脚本
-function genernate_startup() {
     cat >${sysPwd}/trojan.service <<-EOF
 [Unit]  
 Description=trojan  
@@ -109,8 +105,9 @@ function install_trojan() {
     mkdir -p /etc/trojan && cd /etc/trojan
     install_trojan_server # 安装trojan服务端
 
-    genernate_startup #增加启动脚本
-
+    green "证书安装成功, 稍后进入配置"
+    sleep 3
+    clear
     yellow "把证书复制到/root/trojan-cert目录下: 并分别重命名为private.key, fullcahin.cer"
     yellow "然后运行 systemctl start trojan.service"
     green "复制trojan链接:"
@@ -124,7 +121,6 @@ function remove_trojan() {
     systemctl stop trojan && systemctl disable trojan #停止正在运行的trojan服务
     rm -f ${sysPwd}/trojan.service                    # 删除trojan服务
     rm -rf /etc/trojan                                # 删除trojan文件
-    rm -rf /root/trojan-cert                          # 删除证书
     rm -rf /etc/nginx/sites-enabled/trojan            # 删除nginx中的配置
     rm -rf /var/www/trojan                            # 删除网站
     service nginx restart                             # 重启nginx服务
@@ -150,9 +146,9 @@ function start_menu() {
     UtilEchoHead "Trojan 一键安装自动脚本"
     echo
     red " ===================================="
-    yellow " 1. 一键安装 Trojan"
+    yellow " 1. 安装 Trojan"
     red " ===================================="
-    yellow " 2. 一键卸载 Trojan"
+    yellow " 2. 卸载 Trojan"
     red " ===================================="
     yellow " 3. 修改端口 Trojan"
     red " ===================================="
