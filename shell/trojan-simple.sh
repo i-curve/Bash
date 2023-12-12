@@ -54,7 +54,7 @@ EOF
 function install_trojan_server() { # install_trojan_server 安装trojan服务端
     green "安装 trojan 服务端..."
     wget ${TrojanServer} || ErrorExit 4 "trojan服务端下载失败"
-    tar xf trojan-* && rm -rf trojan-.*
+    tar xf trojan-* && rm -rf trojan-server.*
 
     trojan_passwd=$(cat /dev/urandom | head -1 | md5sum | head -c 12)
     sed -i 's/443/'${your_port}'/;s/your_passwd/'${trojan_passwd}'/' /etc/trojan/trojan/server.json
