@@ -62,14 +62,14 @@ server {
 }
 EOF
     mkdir -p /var/www/trojan && cd /var/www/trojan
-    wget ${trojan-web} && unzip trojan-web.zip && rm trojan-web.zip
+    wget ${TrojanWeb} && unzip trojan-web.zip && rm trojan-web.zip
     service nginx restart
 }
 
 # install_trojan_server 安装trojan服务端
 function install_trojan_server() {
     green "安装 trojan 服务端..."
-    wget ${trojan-server} || ErrorExit 4 "trojan服务端下载失败"
+    wget ${TrojanServer} || ErrorExit 4 "trojan服务端下载失败"
     tar xf trojan-* && rm -rf trojan-.*
 
     trojan_passwd=$(cat /dev/urandom | head -1 | md5sum | head -c 12)

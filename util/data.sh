@@ -5,5 +5,5 @@
 # @Last Modified by: i-curve
 # @Name:
 ##
-trojan-server="https://github.com/i-curve/storage-room/releases/download/trojan/trojan-server.tar.xz"
-trojan-web="https://github.com/i-curve/storage-room/releases/download/trojan/trojan-web.zip"
+TrojanServer="https://github.com/i-curve/storage-room/releases/download/trojan/trojan-server.tar.xz"
+TrojanWeb="https://github.com/i-curve/storage-room/releases/download/trojan/trojan-web.zip"
