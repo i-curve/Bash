@@ -10,8 +10,10 @@ set -e
 source "$(dirname $0)/../util/util.sh"
 source "$(dirname $0)/../util/data.sh"
 
+InitEnvironment
+
 function install_dependency() { # install_dependency 安装依赖
-    UtilCheck && green "安装依赖项"
+    green "安装依赖项"
     $systemPackage update && $systemPackage upgrade
     $systemPackage install -y zip tar nginx
 }

@@ -12,7 +12,7 @@ source "$(dirname $0)/../util/util.sh"
 
 config="https://github.com/i-curve/config.git"
 
-UtilCheck
+InitEnvironment
 
 # Install 执行安装
 function Install() {

@@ -24,7 +24,7 @@ red() {
 }
 
 # check 检查系统是否符合
-function UtilCheck() {
+function InitEnvironment() {
     if grep -Eqi "debian|ubuntu|kali|deepin" /etc/issue ||
         grep -Eqi "debian|ubuntu|kali|deepin" /proc/version; then
         systemPackage="apt"

@@ -10,7 +10,7 @@ set -e
 # shellcheck source=../util/util.sh
 source "$(dirname $0)/../util/util.sh"
 
-UtilCheck
+InitEnvironment
 
 # Install 安装
 function Install() {

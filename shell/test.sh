@@ -14,7 +14,7 @@ echo "filename: ${filename}"
 echo "dir: ${filepath}"
 
 echo "核对系统: "
-UtilCheck
+InitEnvironment
 
 echo "pkg source: $systemPackage"
 

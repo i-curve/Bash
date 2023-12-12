@@ -12,7 +12,7 @@ source "$(dirname $0)/../util/util.sh"
 
 # install_dependency 安装依赖
 function install_dependency() {
-    UtilCheck
+    InitEnvironment
     green "============================="
     green "安装依赖项"
     green "============================="
