@@ -5,10 +5,9 @@
 # @Last Modified by: curve
 # @Name: util script
 ##
-set -e
 
 ########################const variable
-version=4.0
+version=5.0
 filename=$0
 filepath=$(dirname "$0")
 ##############################
@@ -50,6 +49,13 @@ function UtilEchoHead() {
     green "======================================="
 }
 
+function CheckRoot() { #核对是否root用户
+    if [[ $(whoami) != root ]]; then
+        echo "涉及高级权限问题,需要用root用户运行" && sleep 2
+        ErrorExit 1 "权限不足"
+    fi
+}
+
 # ErrorExit $1 $2: 程序异常退出
 # $1: errorCode 程序退出码
 # $2: errorMsg 程序错误信息
@@ -58,7 +64,7 @@ function ErrorExit() {
 }
 
 function GetIPCountry() {
-    ip=$(curl -s getip.cc)
-    country=$(curl -s https://country.getip.cc?ip="${ip}")
+    local ip=$(curl -s getip.cc)
+    local country=$(curl -s https://country.getip.cc?ip="${ip}")
     echo "$country"
 }

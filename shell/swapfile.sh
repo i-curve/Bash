@@ -12,19 +12,10 @@ source "$(dirname $0)/../util/util.sh"
 
 path=/root/shell
 config=/etc/swap
+status=$(free | grep -i swap | tr -s " " | cut -d' ' -f 2)
 
-function Check() {
-	if [[ $(whoami) != root ]]; then
-		echo "涉及高级权限问题,需要用root用户运行" && sleep 2
-		ErrorExit 1 "权限不足"
-	fi
-	status=$(free | grep -i swap | tr -s " " | cut -d' ' -f 2)
-}
-Check
-
-#1.安装
-function Install() {
-	green "开始常见 swap"
+function Install() { #1.安装
+	CheckRoot && green "开始创建 swap"
 	if [[ $status != 0 ]]; then
 		echo "虚拟内存已经存在,无法安装,3s后退出..." && sleep 3
 		ErrorExit 2 "swap 已经存在"
@@ -53,21 +44,18 @@ size $bs
 EOF
 }
 
-# 查看虚拟内存配置
-function Get() {
+function Get() { # 查看虚拟内存配置
 	cat $config/config
 }
 
-# 修改虚拟内存配置
-function Set() {
+function Set() { # 修改虚拟内存配置
 	Uninstall
 	Install
 }
 
-# 卸载虚拟内存
-function Uninstall() {
+function Uninstall() { # 卸载虚拟内存
 	if [[ -e /etc/swap/config ]]; then
-		yellow "正在删虚拟内存"
+		CheckRoot && yellow "正在删虚拟内存"
 		path=$(cat /etc/swap/config | grep path | cut -d' ' -f2)
 		sudo swapoff $path/swap/swapfile
 		rm -rf $config
@@ -79,8 +67,7 @@ function Uninstall() {
 	fi
 }
 
-#本脚本信息
-function Information() {
+function Information() { #本脚本信息
 	echo "此脚本用于创建,管理由此脚本创建的虚拟内存"
 	echo "系统要求ubuntu18.04+系统"
 	echo "======================"

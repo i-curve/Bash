@@ -9,8 +9,7 @@ set -e
 
 # shellcheck source=/root/Bash/util/util.sh
 source "$(dirname $0)/../util/util.sh"
-
-config="https://github.com/i-curve/config.git"
+source "$(dirname $0)/../util/data.sh"
 
 InitEnvironment
 
@@ -33,7 +32,7 @@ EOF
 
 # InstallShip 安装ship
 function InstallShip() {
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)" || ErrorExit 2 "starship 下载失败, 请检查网络"
+    sh -c "$(curl -fsSL $Ship)" || ErrorExit 2 "starship 下载失败, 请检查网络"
     cat >>~/.bashrc <<EOF
 eval "$(starship init bash)" 
 EOF
@@ -44,11 +43,11 @@ function InstallVim() {
     green "开始安装vim..."
     cd ~
     if [[ ! -d .vim ]]; then
-        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || ErrorExit 3 "vim-plug 下载失败, 请检查网络(外网)"
+        curl -fLo ~/.vim/autoload/plug.vim --create-dirs ${VimPlug} ||
+            ErrorExit 3 "vim-plug 下载失败, 请检查网络(外网)"
     fi
     if [[ ! -d config ]]; then
-        git clone $config || ErrorExit 10 "https://i-curve/i-curve/config 克隆失败, 请检查网络"
+        git clone $Config || ErrorExit 10 "$Config 克隆失败, 请检查网络"
     fi
     ln -s "$(pwd)/config/vimrc" "$(pwd)/.vimrc"
     ln -s" $(pwd)/config/tmux" "$(pwd)/.tmux.conf"
@@ -71,24 +70,21 @@ EOF
 function InstallGoPPA() {
     green "开始安装ppa..."
     if grep -qi "ubuntu" /etc/issue; then
-        # c++ 换源
+        # c++ 换源         # go 换源
         sudo $systemPackage install software-properties-common
-        sudo $systemPackage install software-properties-common
-        # go 换源
         sudo add-apt-repository ppa:longsleep/golang-backports
         sudo apt-get update
-        sudo apt-get install golang-go
     fi
 }
 
 # InstallNVM 安装nvm
 function InstallNVM() {
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash || ErrorExit 4 "NVM 安装失败, 请检查网络(外网)"
+    curl -o- $Nvm | bash || ErrorExit 4 "NVM 安装失败, 请检查网络(外网)"
 }
 
 # InstallShfmt 安装shfmt
 function InstallShfmt() {
-    curl -sS https://webinstall.dev/shfmt | bash || ErrorExit 5 "shfmt 安装失败, 请检查网络"
+    curl -sS $Shfmt | bash || ErrorExit 5 "shfmt 安装失败, 请检查网络"
 }
 
 # Start 入口

@@ -6,15 +6,8 @@
 # @Last Modified time: 2021-12-14 23:25:34
 ##
 
-yellow() {
-    echo -e "\033[33m\033[01m$1\033[0m"
-}
-green() {
-    echo -e "\033[32m\033[01m$1\033[0m"
-}
-red() {
-    echo -e "\033[31m\033[01m$1\033[0m"
-}
+source "$(dirname $0)/util/util.sh"
+
 arr=(github.com raw.githubusercontent.com gist.github.com api.github.com)
 function error() {
     red "错误信息: $1无法访问"
@@ -38,6 +31,8 @@ function start() {
     echo "测试脚本启动"
     echo "请不要急着关闭本脚本"
     echo "--------------------"
+    country=$(GetIPCountry)
+    echo "当前ip所在国家: ${country}"
     for name in ${arr[@]}; do
         test $name
     done
