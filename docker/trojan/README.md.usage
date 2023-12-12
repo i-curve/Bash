@@ -1,0 +1,18 @@
+# docker server
+
+usage:
+
+```bash
+docker run -d --name=trojan \
+    -p 443:443 \
+    -v /root/trojan-cert/:/root/trojan-cert \
+    -e password="123456" \
+    (构建的镜像)
+```
+
+- note:
+
+1. 需要把域名证书的目录挂在到/root/trojan-cert 下面
+2. 证书文件需要重命名为 private.key,fullchain.cer
+3. 需要添加映射到本机的端口
+4. 通过 password 指定密码
