@@ -45,7 +45,7 @@ function UtilEchoHead() {
     green "======================================="
     green " Author: i-curve"
     green " Target: $1"
-    green " System：centos7+/debian9+/ubuntu18.04+"
+    green " System：ubuntu22.04+"
     green "======================================="
 }
 

@@ -8,7 +8,9 @@
 
 ## 运行环境
 
-**os**:Ubuntu 及其他 debian 的操作系统,其他系统请自行修改文件进行测试
+原则支持: Ubuntu, Debian, Centos, Rethat
+
+官方测试支持: Ubuntu: 22.04+
 
 ## 文件说明
 
