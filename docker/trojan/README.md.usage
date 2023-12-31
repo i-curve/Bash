@@ -6,7 +6,7 @@ usage:
 docker run -d --name=trojan \
     -p 443:443 \
     -v /root/trojan-cert/:/root/trojan-cert \
-    -e password="123456" \
+    -e "password=123456" \
     (构建的镜像)
 ```
 
