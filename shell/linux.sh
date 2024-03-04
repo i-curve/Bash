@@ -50,7 +50,7 @@ function InstallVim() {
         git clone $Config || ErrorExit 10 "$Config 克隆失败, 请检查网络"
     fi
     ln -s "$(pwd)/config/vimrc" "$(pwd)/.vimrc"
-    ln -s" $(pwd)/config/tmux" "$(pwd)/.tmux.conf"
+    ln -s "$(pwd)/config/tmux" "$(pwd)/.tmux.conf"
     ln -s "$(pwd)/config/.ycm_extra_conf.py" "$(pwd)/.ycm_extra_conf.py"
     green "vim安装成功"
 }
