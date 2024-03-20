@@ -41,6 +41,7 @@ EOF
 # InstallVim 配置vim
 function InstallVim() {
     green "开始安装vim..."
+    sudo $systemPackage install -y cmake python3-dev python
     cd ~
     if [[ ! -d .vim ]]; then
         curl -fLo ~/.vim/autoload/plug.vim --create-dirs ${VimPlug} ||
