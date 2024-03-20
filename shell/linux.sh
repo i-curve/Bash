@@ -34,7 +34,7 @@ EOF
 function InstallShip() {
     sh -c "$(curl -fsSL $Ship)" || ErrorExit 2 "starship 下载失败, 请检查网络"
     cat >>~/.bashrc <<EOF
-eval "$(starship init bash)" 
+eval "\$(starship init bash)" 
 EOF
 }
 
