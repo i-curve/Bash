@@ -21,6 +21,7 @@
 | linux.sh    | 新安装的系统进行初始化     |
 | swapfile.sh | linux 系统虚拟内存配置脚本 |
 | trojan.sh   | 一键安装 trojan            |
+| win-server-init.ps1 | win server 2022 初始化脚本 |
 
 ## 用法
 
