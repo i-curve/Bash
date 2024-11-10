@@ -14,14 +14,15 @@
 
 ## 文件说明
 
-| name        | 描述                       |
-| ----------- | -------------------------- |
-| test.sh     | 测试常用 github 网站可用性 |
-| dns.sh      | 安装 dns 域名解析服务器    |
-| linux.sh    | 新安装的系统进行初始化     |
-| swapfile.sh | linux 系统虚拟内存配置脚本 |
-| trojan.sh   | 一键安装 trojan            |
+| name                | 描述                       |
+| ------------------- | -------------------------- |
+| test.sh             | 测试常用 github 网站可用性 |
+| dns.sh              | 安装 dns 域名解析服务器    |
+| linux.sh            | 新安装的系统进行初始化     |
+| swapfile.sh         | linux 系统虚拟内存配置脚本 |
+| trojan.sh           | 一键安装 trojan            |
 | win-server-init.ps1 | win server 2022 初始化脚本 |
+| ssl-install.sh      | 一键安装 ssl 证书          |
 
 ## 用法
 
