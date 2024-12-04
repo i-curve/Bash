@@ -14,6 +14,8 @@ path=/root/shell
 config=/etc/swap
 status=$(free | grep -i swap | tr -s " " | cut -d' ' -f 2)
 
+InitEnvironment
+
 function Install() { #1.安装
 	CheckRoot && green "开始创建 swap"
 	if [[ $status != 0 ]]; then

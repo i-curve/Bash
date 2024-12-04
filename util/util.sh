@@ -24,6 +24,10 @@ red() {
 
 # check 检查系统是否符合
 function InitEnvironment() {
+    sysVer=$(cat /etc/issue | cut -d' ' -f2|cut -d'.' -f1)
+    if [[ -z $sysVer || $sysVer -lt "22" ]];then
+        ErrorExit 1 "系统版本过低, 请使用ubuntu22.04+"
+    fi
     if grep -Eqi "debian|ubuntu|kali|deepin" /etc/issue ||
         grep -Eqi "debian|ubuntu|kali|deepin" /proc/version; then
         systemPackage="apt"
@@ -40,7 +44,6 @@ function InitEnvironment() {
 
 # UtilEchoHead $1:target 输出message头部
 function UtilEchoHead() {
-    clear
     green "======================================="
     green "======================================="
     green " Author: i-curve"
