@@ -16,11 +16,13 @@ function check_nginx() {
 status=$(check_nginx)
 
 if [[ $status = "1" ]]; then
+    echo "stop the nginx"
     service nginx stop
 fi
 
 "/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh"
 
 if [[ $status = "1" ]]; then
+    echo "restart the nginx"
     service nginx start
 fi
