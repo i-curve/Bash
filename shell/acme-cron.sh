@@ -19,7 +19,7 @@ if [[ $status = "1" ]]; then
     service nginx stop
 fi
 
-"/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" >/dev/null
+"/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh"
 
 if [[ $status = "1" ]]; then
     service nginx start
